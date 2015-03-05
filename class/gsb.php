@@ -4,7 +4,7 @@ class GSB {
 
 	/* Attributs */
 	public $slogan = "";
-	private $site_title_default = "Portail GSB";
+	private $site_title_default = "Portaileuh GSB";
 	public $site_title = "Portail GSB";
 	public $site_path;
 
