@@ -11,6 +11,6 @@ include("/includes/const.php");
 	</head>
 
 	<body>
-	<h1><?= $gsb->site_path . "coucou" ?></h1>
+	<h1><?= $gsb->site_path . "coucou"; ?></h1>
 	</body>
 </html>
