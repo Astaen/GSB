@@ -6,11 +6,14 @@ class GSB {
 	public $slogan = "";
 	private $site_title_default = "Portail GSB";
 	public $site_title = "Portail GSB";
-	public $site_path;
+	private $logged = true;
+	public $SITE_PATH;
+	public $INCLUDE_PATH;
 
 	/* Constructeurs */
 	public function __construct() {
-		$this->site_path = $_SERVER['CONTEXT_DOCUMENT_ROOT'];
+		$this->SITE_PATH = $_SERVER['CONTEXT_DOCUMENT_ROOT'];
+		$this->INCLUDE_PATH = $this->SITE_PATH."includes/";
 	}
 
 	/* Méthodes */
@@ -21,6 +24,16 @@ class GSB {
 			$this->site_title = $title;
 		}
 	}
+
+	public function logged() {
+		return $this->logged;
+	}
+
+	public function insert($file) {
+		$gsb = $this;
+		include($this->INCLUDE_PATH.$file);
+	}
+
 }
 
 $gsb = new GSB();

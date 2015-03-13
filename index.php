@@ -1,16 +1,12 @@
 <?php
 session_start();
 include("/class/gsb.php");
-include("/includes/const.php");
+
+if(!$gsb->logged()) {
+	$gsb->insert("login.php");
+} else {
+	$gsb->insert("header.php");
+	$gsb->insert("main.php");
+	$gsb->insert("footer.php");
+}
 ?>
-
-<!DOCTYPE html>
-<html>
-	<head>
-		<title><?= $gsb->site_title;?></title>
-	</head>
-
-	<body>
-	<h1><?= $gsb->site_path; ?></h1>
-	</body>
-</html>
