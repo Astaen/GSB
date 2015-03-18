@@ -16,7 +16,7 @@ class GSB {
 	}
 
 	/* Méthodes */
-	public function setTitle($update = true, $title) {
+	public function setTitle($title, $update = true) {
 		if($update) {
 			$this->site_title = $this->site_title_default. " | " . $title;
 		} else {
