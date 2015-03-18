@@ -6,7 +6,6 @@ class GSB {
 	public $slogan = "";
 	private $site_title_default = "Portail GSB";
 	public $site_title = "Portail GSB";
-	private $logged = true;
 	public $SITE_PATH;
 	public $INCLUDE_PATH;
 

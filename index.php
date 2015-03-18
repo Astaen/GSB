@@ -2,7 +2,7 @@
 session_start();
 include("/class/gsb.php");
 
-if(!$gsb->logged()) {
+if(!$_SESSION['logged']) {
 	$gsb->insert("login.php");
 } else {
 	$gsb->insert("header.php");
