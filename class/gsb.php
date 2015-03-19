@@ -31,7 +31,7 @@ class GSB {
 
 	public function userLogin($username, $password) {
 		$bdd = $this->MySQLInit();
-		$res = $bdd->prepare("SELECT * FROM utilisateur WHERE login=? AND mdp=?");
+		$res = $bdd->prepare("SELECT * FROM visiteur WHERE login=? AND mdp=?");
 		$res->execute(array($username, $password));
 		$user = $res->fetch();
 		if(!empty($user)) {
