@@ -24,6 +24,25 @@ class GSB {
 		}
 	}
 
+	public function MySQLInit() {
+		require($this->SITE_PATH."includes/bdd.php");
+		return $bdd;
+	}
+
+	public function userLogin($username, $password) {
+		$bdd = $this->MySQLInit();
+		$res = $bdd->prepare("SELECT * FROM utilisateur WHERE login=? AND mdp=?");
+		$res->execute(array($username, $password));
+		$user = $res->fetch();
+		if(!empty($user)) {
+			$_SESSION['logged'] = true;
+			$_SESSION['user'] = $user;
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public function logged() {
 		return $this->logged;
 	}
