@@ -1,0 +1,86 @@
+@font-face {
+	font-family: Fontello;
+	src: url(../resources/font/fontello.ttf);
+}
+* {margin: 0; padding: 0;}
+/* BODY */
+body {
+	background: #e0e9f4;
+	font-family: Roboto;
+}
+
+/* BOUTTONS */
+.btn-add {
+	cursor: pointer;
+	border: none;
+	background: transparent;
+}
+.btn-add::before {
+	font-family: 'Fontello';
+	font-size: 18px;
+	content: '\E800';
+}
+.btn-valid {
+	height: 30px;
+	width: 70px;
+}
+.btn-valid::after {
+	font-family: 'Fontello';
+	content: '\E802';
+}
+.btn-reset {
+	height: 30px;
+	width: 70px;
+}
+
+
+/* Test */
+div.logo {
+	height: 200px;
+	width: 200px;
+	background: white;
+}
+
+div.main {
+	position: relative;
+}
+
+/* CONTENU MENU (gauche) */
+.nav-main {
+	float left;
+	position: absolute;
+
+	height: 100%;
+	width: 250px;
+	
+	background: #87a8d1;
+	box-shadow: 1px 0px 1px #666;
+}
+.nav {
+	margin: 30px 0  0 25px;
+}
+li {
+	list-style: none;
+	margin-top: 10px;
+}
+.nav-link {
+	text-decoration: none;
+	font-family: Roboto;
+}
+
+/* CONTENU (droite) */
+div.container {
+	float: left;
+
+	margin: 10px 0 0 270px;
+}
+form {
+	margin-top: 20px;
+}
+table {
+	margin-bottom: 30px;
+}
+input[type="text"] {
+	height: 30px;
+	font-size: 20px;
+}
