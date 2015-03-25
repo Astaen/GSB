@@ -10,6 +10,15 @@ $(document).ready(function() {
 		$('#login_form').css("top",Math.round(($(document).height()-350)/2)+"px");
 	})
 
+	showIndex = function() {
+		$.ajax({
+		  method: "GET",
+		  url: "index.php"
+		}).done(function( msg ) {
+			document.write(msg);
+		  });		
+	}
+
 	$('#login_form').submit(function(e) {
 		e.preventDefault();
 		$('#login_form form').fadeOut("fast");
@@ -23,9 +32,10 @@ $(document).ready(function() {
 		}).done(function( msg ) {
 		    if(msg) {
 		    	$('#login_form').addClass("logged");
-		    	setInterval(function() {
-					window.location.replace(window.location);
-		    	},3000);		    	
+		    	interval = setInterval(function() {
+		    		showIndex();
+		    		clearInterval(interval);
+		    	},1500);		    	
 		    } else {
 
 		    }

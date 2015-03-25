@@ -84,9 +84,9 @@ div#login_form.loading img.loader {
 #login_form.logged {
 	animation: dissapear 0.2s ease forwards;
 	-webkit-animation: dissapear 0.2s ease forwards;
-	-webkit-animation-delay: 2s;
-	-o-animation-delay: 2s;
-	animation-delay: 2s;
+	-webkit-animation-delay: 1s;
+	-o-animation-delay: 1s;
+	animation-delay: 1s;
 }
 
 #login_form label {
