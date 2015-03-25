@@ -7,3 +7,10 @@
 	<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+
+<!-- Header -->
+<header>
+	<img src=""> <!-- Ici le logo -->
+	<span><?php /* Navigation (fil d'ariane) [ex: Interface visiteur > Tableau de board] */ ?></span>
+	<span>Bonjour, <?php /* Nom de l'utilisateur */ ?></span>
+</header>

@@ -1,8 +1,8 @@
 <!-- body -->
 
 <!-- MENU (GAUCHE) -->
-<div class="nav-main">
-	<div class="logo"></div>
+<nav>
+	<img src=""> <!-- Photo de l'utilisateur -->
 	<div class="nav">
 		<ul>
 			<li><a class="nav-link icon-home" href="">Accueil</a></li>
@@ -11,63 +11,40 @@
 			<li><a class="nav-link" href="?logout">Déconnexion</a></li>
 		</ul>
 	</div>
-</div>
+</nav>
+
 
 <!-- CONTENU (DROITE) -->
-<div class="container">
-	<h2>Gestion des frais :</h2>
+<div id="main">
+	
+	<!-- Résumé du mois en cours -->
+	<div id="summary">
+		<span class="">Mois de <?php /* Mois actuel */ ?></span>
+		<button type="button" id="add">Ajouter</button>
 
-	<!-- FORMULAIRE -->
-	<form action="" method="GET">
-		<table>
-			<tr>
-				<td>Période d'engagement : </td>
-				<td><input type="text" id="PE" name="PE" placeholder="Ex: 10-2014" /></td>
-			</tr>
-		</table>
-
-		<!-- FRAIS AU FORFAIT -->
-		<table class="FF">
-			<tr>
-				<th>Repas du midi</th>
-				<th>Nuitées</th>
-				<th>Étape</th>
-				<th>Km</th>
-			</tr>
-			<tr>
-				<td><input type="text" id="" name="FF_repasMidi" /></td>
-				<td><input type="text" id="" name="FF_nuit" /></td>
-				<td><input type="text" id="" name="FF_eta" /></td>
-				<td><input type="text" id="" name="FF_km" /></td>
-			</tr>
-		</table>
-		<!-- FIN frais au forfait -->
-
-		<!-- hors forfait -->
-		<table class="HF">
-			<tr>
-				<th></th>
-				<th>Date</th>
-				<th>Libellé</th>
-				<th>Montant (en €)</th>
-				<th></th>
-			</tr>
-			<tr>
-				<td></td>
-				<td><input id="HF_date" name="HF_date" type="text" /></td>
-				<td><input id="HF_lib" name="HF_lib" type="text" /></td>
-				<td><input id="HF_amount" name="HF_amount" type="text" /></td>
-				<td><button class="btn-add" id=""></button></td>
-			</tr>
-		</table>
-		<!-- FIN hors forfait -->
-
-		<!-- BOUTTONS DU FORMULAIRES -->
 		<div>
-			<input type="button" class="btn-valid" value="Valider" />
-			<input type="button" class="btn-reset" value="Annulé" />
+			<span>Étapes</span>
+			<span id="etapes">0</span>
 		</div>
-	</form>
+		<div>
+			<span>Nuitées</span>
+			<span id="nuite">0</span>
+		</div>
+		<div>
+			<span>Repas</span>
+			<span id="repas">0</span>
+		</div>
+		<div>
+			<span>Voyages</span>
+			<span id="voyage">0 Km</span>
+		</div>
+	</div>
+
+	<!-- Historique -->
+	<!-- Il peut déclarer des fiches d'y y'a 1 an ou moins MAX -->
+	<div id="history">
+		<div class=""></div>
+	</div>
 </div>
 
 <!-- /body -->
