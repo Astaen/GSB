@@ -1,6 +1,10 @@
 <?php
 session_start();
 include("/class/gsb.php");
+if (isset($_GET['logout'])) {
+	session_destroy();
+	header("Location: /");
+}
 
 if(!isset($_SESSION['logged'])) {
 	$gsb->insert("login.php");

@@ -8,6 +8,7 @@
 			<li><a class="nav-link icon-home" href="">Accueil</a></li>
 			<li><a class="nav-link" href="">Nouvelle fiche de frais</a></li>
 			<li><a class="nav-link" href="">Gestion des fiches de frais</a></li>
+			<li><a class="nav-link" href="?logout">Déconnexion</a></li>
 		</ul>
 	</div>
 </div>
