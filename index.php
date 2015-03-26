@@ -10,7 +10,11 @@ if(!isset($_SESSION['logged'])) {
 	$gsb->insert("login.php");
 } else {
 	$gsb->insert("header.php");
-	$gsb->insert("main.php");
+	if($_SESSION['user']['type'] == 'vis') {
+		$gsb->insert("main_vis.php");
+	} else {
+		$gsb->insert("main_acc.php");
+	}	
 	$gsb->insert("footer.php");
 }
 ?>

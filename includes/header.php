@@ -10,7 +10,7 @@
 
 <!-- Header -->
 <header>
-	<img src=""> <!-- Ici le logo -->
-	<span><?php /* Navigation (fil d'ariane) [ex: Interface visiteur > Tableau de board] */ ?></span>
-	<span>Bonjour, <?php /* Nom de l'utilisateur */ ?></span>
+	<img src="/img/logo.png" id="logo"> <!-- Ici le logo -->
+	<span class="ariane"><?= $gsb->printAriane(); ?></span>
+	<span class="welcome">Bonjour, <?= $_SESSION['user']['prenom']; ?></span>
 </header>

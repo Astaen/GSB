@@ -28,7 +28,7 @@ class GSB {
 		require($this->SITE_PATH."includes/bdd.php");
 		return $bdd;
 	}
-	
+
 	public function userLogin($username, $password) {
 		$bdd = $this->MySQLInit();
 		$res = $bdd->prepare("SELECT * FROM visiteur WHERE login=? AND mdp=?");
@@ -40,6 +40,12 @@ class GSB {
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	public function printAriane() {
+		if($_SESSION['user']['type'] == 'vis') {
+			return "<strong>Interface Visiteur ></strong> Tableau de bord";
 		}
 	}
 

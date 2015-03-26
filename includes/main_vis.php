@@ -13,7 +13,7 @@
 	</div>
 </nav>
 
-
+<?= '<img src="/img/avatar/'.$_SESSION['user']['login'].'.png" />'; ?>
 <!-- CONTENU (DROITE) -->
 <div id="main">
 	
