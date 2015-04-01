@@ -12,8 +12,9 @@ $(document).ready(function() {
 
 	showIndex = function() {
 		$.ajax({
-		  method: "GET",
-		  url: "index.php"
+		  method: "POST",
+		  url: "index.php",
+		  data: {login: true}
 		}).done(function( msg ) {
 			document.write(msg);
 		  });		
@@ -21,23 +22,26 @@ $(document).ready(function() {
 
 	$('#login_form').submit(function(e) {
 		e.preventDefault();
-		$('#login_form form').fadeOut("fast");
+		$("#login_form").removeClass("wrong");
 		var login = $('#username').val();
 		var pw = $('#password').val();
-		$(e.currentTarget).addClass("loading");
 		$.ajax({
 		  method: "POST",
 		  url: "../ajax/login_ajax.php",
 		  data: { username: login, password: pw }
 		}).done(function( msg ) {
 		    if(msg) {
+		    	$(e.currentTarget).removeClass("wrong");
 		    	$('#login_form').addClass("logged");
 		    	interval = setInterval(function() {
 		    		showIndex();
 		    		clearInterval(interval);
-		    	},1500);		    	
+		    	},100);		    	
 		    } else {
-
+		    	$("#login_form").addClass("wrong");
+		    	$('#login_form form').fadeIn("fast");
+		    	$('#password').val("");
+		    	console.log("Erreur");
 		    }
 		  });		
 	})

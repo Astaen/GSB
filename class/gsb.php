@@ -6,6 +6,7 @@ class GSB {
 	public $slogan = "";
 	private $site_title_default = "Portail GSB";
 	public $site_title = "Portail GSB";
+	public $month = array("Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Décembre");
 	public $SITE_PATH;
 	public $INCLUDE_PATH;
 
@@ -31,8 +32,8 @@ class GSB {
 
 	public function userLogin($username, $password) {
 		$bdd = $this->MySQLInit();
-		$res = $bdd->prepare("SELECT * FROM visiteur WHERE login=? AND mdp=?");
-		$res->execute(array($username, $password));
+		$res = $bdd->prepare("SELECT * FROM utilisateur WHERE login=? AND mdp=?");
+		$res->execute(array($username, hash("sha256", $password)));
 		$user = $res->fetch();
 		if(!empty($user)) {
 			$_SESSION['logged'] = true;

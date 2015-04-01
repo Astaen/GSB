@@ -30,6 +30,33 @@
   100%{margin-top: -100px; opacity: 0}
 }
 
+@keyframes shake {
+	0% {left: 0;}
+	10% {left: 20px;}
+	20% { left: -20px;}
+	30% { left: 15px;}
+	40% { left: -15px;}
+	50% { left: 10px;}
+	60% { left: -7px;}
+	70% { left: 5px;}
+	80% { left: -3px;}
+	90% { left: 2px;}
+	100% { left: 0;}
+}
+
+@-webkit-keyframes shake {
+	0% {left: 0;}
+	10% {left: 20px;}
+	20% { left: -20px;}
+	30% { left: 15px;}
+	40% { left: -15px;}
+	50% { left: 10px;}
+	60% { left: -7px;}
+	70% { left: 5px;}
+	80% { left: -3px;}
+	90% { left: 2px;}
+	100% { left: 0;}
+}
 
 body * {
 	font-family: 'Roboto', sans-serif;
@@ -84,9 +111,6 @@ div#login_form.loading img.loader {
 #login_form.logged {
 	animation: dissapear 0.2s ease forwards;
 	-webkit-animation: dissapear 0.2s ease forwards;
-	-webkit-animation-delay: 1s;
-	-o-animation-delay: 1s;
-	animation-delay: 1s;
 }
 
 #login_form label {
@@ -147,4 +171,19 @@ input#submit {
 	display: block;
 	color: #D7D7D7;
 	background: white;
+}
+
+div#login_form.wrong label, div#login_form.wrong input {
+    color: rgb(240, 70, 70);
+}
+
+div#login_form.wrong {
+    border: 1px solid rgb(255, 132, 132);
+    background: rgb(255, 247, 247);
+    animation: shake 1s ease;
+    -webkit-animation: shake 1s ease;
+}
+
+div#login_form.wrong input {
+    border: 1px solid rgb(236, 173, 173);
 }
