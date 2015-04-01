@@ -1,23 +1,22 @@
 <?php
 session_start();
-date_default_timezone_set("GMT");
-include("/class/gsb.php");
+include_once("/class/gsb.php");
 if (isset($_GET['logout'])) {
 	session_destroy();
 	header("Location: /");
 }
 
 if(!isset($_SESSION['logged'])) {
-	$gsb->insert("login.php");
+	include("login.php");
 } else {
-	$gsb->insert("header.php");
 	if($_SESSION['user']['type'] == 'vis') {
 		$gsb->setTitle("Tableau de bord", true);
-		$gsb->insert("main_vis.php");
+		include("header.php");
+		include("gsb_visitor/main.php");
 	} else {
-		$gsb->setTitle("Tableau de bord", true);
-		$gsb->insert("main_acc.php");
+		include("header.php");
+		include("gsb_accountant/main.php");
 	}	
-	$gsb->insert("footer.php");
+	include("footer.php");
 }
 ?>

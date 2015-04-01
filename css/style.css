@@ -284,3 +284,28 @@ button:active, button:hover, button:focus {
     line-height: 3em;
     padding: 0 20px;
 }
+
+a.more {
+    display: block;
+    text-align: center;
+    background: #F5F8FB;
+    padding: 5px;
+    color: rgb(100, 141, 193);
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+a.more:hover {
+    background: #e0e9f4;
+    color: rgb(81, 116, 161);
+}
+
+div#history {
+    margin-top: 2em;
+}
+
+span.etat {
+    position: absolute;
+    right: 20px;
+    min-width: 150px;
+}
