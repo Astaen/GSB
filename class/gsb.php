@@ -1,5 +1,4 @@
 <?php
-
 class GSB {
 
 	/* Attributs */
@@ -13,8 +12,8 @@ class GSB {
 
 	/* Constructeurs */
 	public function __construct() {
-		$this->SITE_PATH = $_SERVER['CONTEXT_DOCUMENT_ROOT'];
-		$this->INCLUDE_PATH = $this->SITE_PATH."includes/";
+		// $this->SITE_PATH = $_SERVER['CONTEXT_DOCUMENT_ROOT'];
+		// $this->INCLUDE_PATH = $this->SITE_PATH."includes/";
 	}
 
 	/* Méthodes */
@@ -59,7 +58,7 @@ class GSB {
 		return $this->logged;
 	}
 
-
+	//renvoie toutes les fiches de l'utilisateur dont l'ID est passé en paramètre, dans un tableau
 	public function getSheetsFromUser($user_id) {
 		$result = Array();
 		$bdd = $this->MySQLInit();
@@ -71,7 +70,7 @@ class GSB {
 		return $result;
 	}
 
-	
+	//renvoie LA fiche de l'utilisateur dont l'ID est passé en paramètre, dans un tableau (sans les détails)
 	public function getCurrentSheet($user_id) {
 		$bdd = $this->MySQLInit();
 		$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur=? AND id_etat='CR'");
@@ -83,6 +82,7 @@ class GSB {
 
 	}
 
+	//renvoie dans un tableau à 3 dimensions, les lignes de frais
 	public function getSheetDetails($sheet_id) {
 		$bdd = $this->MySQLInit();
 

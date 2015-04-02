@@ -18,3 +18,6 @@
 	<span class="ariane"><?= $gsb->printAriane(); ?></span>
 	<span class="welcome">Bonjour, <strong><?= $_SESSION['user']['prenom']; ?></strong></span>
 </header>
+
+<!-- body -->
+<div id="main">

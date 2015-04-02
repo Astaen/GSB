@@ -1,5 +1,4 @@
-<!-- body -->
-<div id="main">
+
 <?php
 // On récupère ...
 $fiches = $gsb->getSheetsFromUser($_SESSION['user']['id']); // ... tputes les fiches de l'utilisateur actuel en tableau
@@ -109,6 +108,3 @@ include("navigation.php");
 		</div><!-- /historique -->
 
 	</div><!-- /entry-content -->
-
-</div>
-<!-- /body -->
