@@ -9,5 +9,5 @@ catch (Exception $e)
 }
 
 $bdd->query('SET NAMES utf8');
-
+//commentaire
 ?>
