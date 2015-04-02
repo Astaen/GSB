@@ -59,6 +59,7 @@ class GSB {
 		return $this->logged;
 	}
 
+
 	public function getSheetsFromUser($user_id) {
 		$result = Array();
 		$bdd = $this->MySQLInit();
@@ -70,6 +71,7 @@ class GSB {
 		return $result;
 	}
 
+	
 	public function getCurrentSheet($user_id) {
 		$bdd = $this->MySQLInit();
 		$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur=? AND id_etat='CR'");

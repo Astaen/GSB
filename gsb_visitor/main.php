@@ -50,7 +50,7 @@ include("navigation.php");
 		
 		<!-- Résumé du mois en cours -->
 		<div id="summary">
-			<div class="summary-header">
+			<div class="entry-header">
 				<span>Mois de <?= $gsb->month[(int)date("n", time())-1]; ?></span>
 				<button type="button" id="add">Ajouter</button>			
 			</div>
@@ -84,7 +84,7 @@ include("navigation.php");
 		<!-- Historique -->
 		<!-- Il peut déclarer des fiches d'y y'a 1 an ou moins MAX -->
 		<div id="history">
-			<div class="history-header">
+			<div class="entry-header">
 				<span>Historique</span>
 			</div>
 
