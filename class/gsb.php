@@ -12,8 +12,8 @@ class GSB {
 
 	/* Constructeurs */
 	public function __construct() {
-		// $this->SITE_PATH = $_SERVER['CONTEXT_DOCUMENT_ROOT'];
-		// $this->INCLUDE_PATH = $this->SITE_PATH."includes/";
+		$this->SITE_PATH = $_SERVER['CONTEXT_DOCUMENT_ROOT'];
+		$this->INCLUDE_PATH = $this->SITE_PATH."includes/";
 	}
 
 	/* Méthodes */

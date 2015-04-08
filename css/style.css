@@ -13,6 +13,16 @@
 	100% { opacity: 1;}
 }
 
+@keyframes slideUp {
+    0% {padding-top: 50px;}
+    100% {padding-top: 0px;}
+}
+
+@-webkit-keyframes slideUp {
+    0% {padding-top: 50px;}
+    100% {padding-top: 0px;}
+}
+
 * {margin: 0; padding: 0;}
 /* BODY */
 body {
@@ -118,7 +128,7 @@ nav {
 nav:before {
     display: block;
     content: "";
-    background: red;
+    background: white;
     width: 150px;
     height: 75px;
     position: absolute;
@@ -234,25 +244,35 @@ button {
     color: #87a8d1;
     padding: 10px 15px;
     border-radius: 2px;
+    position: absolute;
+    right: 20px;
+    padding-left: 35px;
+    background-size: 20px!important;
+    background-position: 11px 8px!important;
+    top: 10px;
+    transition: padding 0.2s ease;
+    -webkit-transition: padding 0.2s ease;
+    font-weight: 600;    
 }
 
 button#add {
-  position: absolute;
-  right: 20px;
-  padding-left: 35px;
-  background: url('/img/add.png') no-repeat;
-  background-size: 20px;
-  background-position: 11px 8px;
-  top: 10px;
-  transition: padding 0.2s ease;
-  -webkit-transition: padding 0.2s ease;
-  font-weight: 600;
+    background: url('/img/add.png') no-repeat;
 }
 
-button#add:hover {
+button#cancel {
+    background: url('/img/cancel.png') no-repeat;
+    border-color: rgb(255, 132, 132);
+    color: rgb(255, 132, 132);
+}
+
+button:hover {
     padding-left: 40px;
-    background-color: #e0e9f4;
+    background-color: #e0e9f4!important;
     cursor: pointer;
+}
+
+button.red:hover {
+    background-color: rgb(255, 247, 247)!important;
 }
 
 button:active, button:hover, button:focus {
@@ -307,4 +327,72 @@ span.etat {
     position: absolute;
     right: 20px;
     min-width: 150px;
+}
+
+div#add-popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    margin: auto;
+    background: white;
+    border-radius: 5px;    
+    padding-top: 50px;
+}
+
+div#add-popup form {
+    padding: 20px;
+    opacity: 0;
+}
+
+div#add-popup .entry-header {
+    opacity: 0;
+}
+
+div#add-popup.show form, div#add-popup.show .entry-header {
+    opacity: 1;
+    transition: opacity 0.2s ease;
+    -webkit-transition: opacity 0.2s ease;
+}
+
+div#add-popup.show {
+    display: block;
+    animation: slideUp 0.2s ease forwards;  
+    -webkit-animation: slideUp 0.2s ease forwards;
+}
+
+table.forf {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+table.forf th {
+    background: #e0e9f4;
+    font-size: 1em;
+    padding: 5px;
+}
+
+table.forf td {
+    padding: 5px;
+    text-align: center;
+    border-right: 1px solid #ccc;
+}
+table.forf td:last-child {
+    border-right: none;
+}
+
+table.forf tr td:last-child, table.forf tr th:last-child {
+    width: 150px;
+}
+table.forf tr:nth-child(odd) {
+    background: rgb(245, 248, 251);
+}
+
+.amount-details {
+    text-align: right;
+    font-size: 1em;
+    padding: 0 20px;
+    color: #87a8d1;
 }

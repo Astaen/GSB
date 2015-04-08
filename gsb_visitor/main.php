@@ -107,4 +107,26 @@ include("navigation.php");
 
 		</div><!-- /historique -->
 
+		<div id="add-popup">
+			<div class="entry-header">
+				<span>Ajouter un frais</span>
+				<button type="button" class="red" id="cancel">Annuler</button>
+			</div>		
+			<form action="">
+				<p>Catégorie :</p>
+				<input type="radio" name="cat_frais" value="Forfaitaire">
+				<input type="radio" name="cat_frais" value="Hors forfait">
+				<p>Type :</p>
+				<select name="type_frais">
+					<option value="ETP"></option>
+					<option value="KM"></option>
+					<option value="NUI"></option>
+					<option value="REP"></option>
+				</select>
+				<p>Quantité :</p>
+				<input type="number" name="qty" value="0" min="0">
+			</form>
+		</div>
+		
+
 	</div><!-- /entry-content -->

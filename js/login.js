@@ -30,6 +30,7 @@ $(document).ready(function() {
 		  url: "../ajax/login_ajax.php",
 		  data: { username: login, password: pw }
 		}).done(function( msg ) {
+			console.log(msg);
 		    if(msg) {
 		    	$(e.currentTarget).removeClass("wrong");
 		    	$('#login_form').addClass("logged");
