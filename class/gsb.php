@@ -122,6 +122,14 @@ class GSB {
 			$result[$data['id']] = $data['libelle'];
 		}
 		return $result;
+	}
+
+	public function getMonth($date) {
+		return $this->month[(int)date("n", strtotime($date))-1];
+	}
+
+	public function getYear($date) {
+		return date("Y", strtotime($date));
 	}	
 
 }
