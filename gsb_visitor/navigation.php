@@ -16,7 +16,7 @@
 
 		<ul class="nav-menu">
 			<li><a class="nav-link icon-home" href="/">Tableau de bord</a></li>
-			<li><a class="nav-link" href="/fiches.php">Gestion des frais</a></li>
+			<li><a class="nav-link" href="fiches.php">Gestion des frais</a></li>
 			<li><a class="nav-link" href="index.php?logout">Déconnexion</a></li>
 		</ul>
 	</nav>
