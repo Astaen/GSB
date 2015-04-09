@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once("/class/gsb.php");
+include_once($_SERVER['DOCUMENT_ROOT']."/class/gsb.php");
 if (isset($_GET['logout'])) {
 	session_destroy();
 	header("Location: /");

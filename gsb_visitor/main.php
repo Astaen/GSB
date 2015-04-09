@@ -1,8 +1,11 @@
 
 <?php
 // On récupère ...
-$fiches = $gsb->getSheetsFromUser($_SESSION['user']['id']); // ... tputes les fiches de l'utilisateur actuel en tableau
 $ficheCourante = $gsb->getCurrentSheet($_SESSION['user']['id']); // ... la fiche courante de l'utilisateur en tableau
+if(!$ficheCourante) { //Si aucune fiche n'est ouverte pour le mois en cours, on en crée une nouvelle
+	$ficheCourante = $gsb->openNewSheet($_SESSION['user']['id']);
+}
+$fiches = $gsb->getSheetsFromUser($_SESSION['user']['id'], 5); // ... toutes les fiches de l'utilisateur actuel en tableau
 $detailFiche = $gsb->getSheetDetails($ficheCourante['id']); // ... les détails de cette même fiche (les lignes)
 $montantsType = $gsb->getFeeAmounts(); // ... les coûts de chaque type
 $libellesEtat = $gsb->getStates(); // ... les libéllés des types
@@ -50,7 +53,7 @@ include("navigation.php");
 		<!-- Résumé du mois en cours -->
 		<div id="summary">
 			<div class="entry-header">
-				<span>Mois de <?= $gsb->month[(int)date("n", time())-1]; ?></span>
+				<span>Mois de <?= $gsb->getMonth($ficheCourante['date']); ?></span>
 				<button type="button" id="add">Ajouter</button>			
 			</div>
 			
@@ -104,6 +107,7 @@ include("navigation.php");
 					?>									
 				</ul>
 			</div>
+		<a class="more" href="/fiches.php">Afficher plus ...</a>
 
 		</div><!-- /historique -->
 

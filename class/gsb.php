@@ -12,14 +12,23 @@ class GSB {
 
 	/* Constructeurs */
 	public function __construct() {
-		$this->SITE_PATH = $_SERVER['CONTEXT_DOCUMENT_ROOT'];
+		$this->SITE_PATH = $_SERVER['DOCUMENT_ROOT'];
 		$this->INCLUDE_PATH = $this->SITE_PATH."includes/";
 	}
 
 	/* Méthodes */
 
-	//Change le nom de
+	/**
+	 * Change le nom du site ou le met à jour
+	 *
+	 * @title	(string)	Nouveau nom du site
+	 * @update	(bool)	Si true, le nom du site sera mis à jour avec un séparateur "Nom du site | Ajout", sinon le nom entier sera modifié
+	 * @return	(bool) false si le titre est vide
+	 */ 
 	public function setTitle($title, $update = true) {
+		if(empty($title)) {
+			return false;
+		}
 		if($update) {
 			$this->site_title = $this->site_title_default. " | " . $title;
 		} else {
@@ -27,6 +36,11 @@ class GSB {
 		}
 	}
 
+	/**
+	 * Initialise PDO
+	 *
+	 * @return l'objet de connexion PDO
+	 */ 
 	public function MySQLInit() {
 		if(!isset($bdd)) {
 			require($this->SITE_PATH."includes/bdd.php");
@@ -34,6 +48,13 @@ class GSB {
 		return $bdd;
 	}
 
+	/**
+	 * Connecte l'utilisateur au site
+	 *
+	 * @username	(string)	Identifiant de l'utilisateur
+	 * @password	(string)	Mot de passe de l'utilisateur
+	 * @return	(bool) true si l'utilisateur existe dans la base de données, sinon false
+	 */ 
 	public function userLogin($username, $password) {
 		$bdd = $this->MySQLInit();
 		$res = $bdd->prepare("SELECT * FROM utilisateur WHERE login=? AND mdp=?");
@@ -48,36 +69,60 @@ class GSB {
 		}
 	}
 
+	/**
+	 * Affiche le fil d'ariane
+	 *
+	 * @return	(string) Fil d'ariane sous forme de string
+	 */ 
 	public function printAriane() {
 		if($_SESSION['user']['type'] == 'vis') {
 			return "<strong>Interface Visiteur ></strong> Tableau de bord";
 		}
 	}
 
-	public function logged() {
-		return $this->logged;
+	public function openNewSheet($user_id) {
+		$bdd = $this->MySQLInit();
+		$bdd->query("UPDATE fiche SET id_etat='CL' WHERE id_etat='CR'");
+		$bdd->query("INSERT INTO fiche(id_utilisateur, id_etat) VALUES('$user_id','CR')");
+		return $this->getCurrentSheet($user_id);
 	}
 
-	//renvoie toutes les fiches de l'utilisateur dont l'ID est passé en paramètre, dans un tableau
-	public function getSheetsFromUser($user_id) {
+	//renvoie LA fiche de l'utilisateur ouverte ce mois-ci dont l'ID est passé en paramètre, dans un tableau (sans les détails)
+	/**
+	 * Renvoie toutes les fiches de l'utilisateur dont l'ID est passé en paramètre, dans un tableau
+	 *
+	 * @user_id	(int)	ID de l'utilsateur
+	 * @return un tableau contenant les fiches
+	 */ 		
+	public function getCurrentSheet($user_id) {
+		$bdd = $this->MySQLInit();
+		$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur=? AND id_etat='CR' AND MONTH(date) =?");
+		$res->execute(array($user_id, date("m", time())));
+		return $res->fetch();
+	}
+
+	/**
+	 * Renvoie toutes les fiches de l'utilisateur dont l'ID est passé en paramètre, dans un tableau
+	 *
+	 * @user_id	(int)	ID de l'utilsateur
+	 * @return un tableau contenant les fiches
+	 */ 	
+	public function getSheetsFromUser($user_id, $qty) {
 		$result = Array();
 		$bdd = $this->MySQLInit();
-		$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur=?");
+		$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur=? ORDER BY date DESC LIMIT $qty");
 		$res->execute(array($user_id));
 		while($data = $res->fetch()) {
 			array_push($result, $data);
 		}
-		return $result;
-	}
+		if(sizeof($result)) {
+			return $result;
+		} else {
+			return false;
+		}		
+	}	
 
-	//renvoie LA fiche de l'utilisateur dont l'ID est passé en paramètre, dans un tableau (sans les détails)
-	public function getCurrentSheet($user_id) {
-		$bdd = $this->MySQLInit();
-		$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur=? AND id_etat='CR'");
-		$res->execute(array($user_id));
-		return $res->fetch();
-	}
-
+	//renvoie la fiche dont l'ID est passé en paramètre dans un tableau
 	public function getSheetById($id) {
 		$bdd = $this->MySQLInit();
 		$res = $bdd->prepare("SELECT * FROM fiche WHERE id=?");
