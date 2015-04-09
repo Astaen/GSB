@@ -397,3 +397,6 @@ table.forf tr:nth-child(odd) {
     color: #87a8d1;
 }
 
+p.no-frais {
+    text-align: center;
+}

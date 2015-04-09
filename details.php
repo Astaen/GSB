@@ -33,6 +33,7 @@ $total_hors_forfait = 0;
 		<div class="entry-header">
 			<span>Frais forfaitaire</span>
 		</div>
+		<?php if(sizeof($detailsFiche['forfait'])) { ?>
 		<table class="forf">
 			<tr>
 				<th>Libellé</th>
@@ -40,10 +41,7 @@ $total_hors_forfait = 0;
 				<th>Dernière modification</th>
 				<th>Total</th>
 			</tr>
-			<?php
-			if(is_array($detailsFiche)) {
-			foreach ($detailsFiche['forfait'] as $key => $frais):
-			?>
+			<?php foreach ($detailsFiche['forfait'] as $key => $frais):	?>
 			<tr>
 				<td>
 					<?php
@@ -58,14 +56,12 @@ $total_hors_forfait = 0;
 				<td><?= $frais['quantite'] * $montantsType[$frais['id_typefrais']]; ?></td>
 			</tr>
 			<?php $total_forfait += $frais['quantite'] * $montantsType[$frais['id_typefrais']]; ?>
-			<?php
-			endforeach;
-			}
-			else {
-				echo "<p>Aucun frais n'a été rentré</p>";
-			}
-			?>
+			<?php endforeach; ?>
 		</table>
+		<?php
+		}
+		else { echo "<p class=\"no-frais\">Aucun frais n'a été rentré</p>"; }
+		?>
 	</div>
 
 	<!-- Hors forfait -->
@@ -73,6 +69,7 @@ $total_hors_forfait = 0;
 		<div class="entry-header">
 			<span>Frais hors forfait</span>
 		</div>
+		<?php if(sizeof($detailsFiche['hors_forfait'])) { ?>
 		<table class="forf">
 			<tr>
 				<th>Libellé</th>
@@ -88,6 +85,10 @@ $total_hors_forfait = 0;
 			<?php $total_hors_forfait += $frais['montant']; ?>
 			<?php endforeach; ?>
 		</table>
+		<?php
+		}
+		else { echo "<p class=\"no-frais\">Aucun frais n'a été rentré</p>"; }
+		?>
 	</div>
 
 	<div class="amount-details">
