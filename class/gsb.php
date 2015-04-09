@@ -78,6 +78,13 @@ class GSB {
 		return $res->fetch();
 	}
 
+	public function getSheetById($id) {
+		$bdd = $this->MySQLInit();
+		$res = $bdd->prepare("SELECT * FROM fiche WHERE id=?");
+		$res->execute(array($id));
+		return $res->fetch();
+	}	
+
 	public function getOpenedSheets() {
 
 	}
