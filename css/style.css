@@ -23,6 +23,16 @@
     100% {padding-top: 0px;}
 }
 
+@keyframes slideOut {
+    0% {margin-top: 0px; opacity: 1;}
+    100% {margin-top: -50px; opacity: 0;}
+}
+
+@-webkit-keyframes slideOut {
+    0% {margin-top: 0px; opacity: 1;}
+    100% {margin-top: -50px; opacity: 0;}
+}
+
 * {margin: 0; padding: 0;}
 /* BODY */
 body {
@@ -238,7 +248,7 @@ ul.nav-menu li:active {
     background: #648dc1;
 }
 
-button {
+.entry-header button {
     background: white;
     border: 1px solid #87a8d1;
     color: #87a8d1;
@@ -252,31 +262,54 @@ button {
     top: 10px;
     transition: padding 0.2s ease;
     -webkit-transition: padding 0.2s ease;
-    font-weight: 600;    
+    font-weight: 600;
+    text-shadow: none;
 }
 
-button#add {
+.entry-header button#add {
     background: url('/img/add.png') no-repeat;
 }
 
-button#cancel {
+.entry-header button#cancel {
     background: url('/img/cancel.png') no-repeat;
     border-color: rgb(255, 132, 132);
     color: rgb(255, 132, 132);
 }
 
-button:hover {
+.entry-header button:hover {
     padding-left: 40px;
     background-color: #e0e9f4!important;
     cursor: pointer;
 }
 
-button.red:hover {
+.entry-header button.red:hover {
     background-color: rgb(255, 247, 247)!important;
 }
 
-button:active, button:hover, button:focus {
+.entry-header button:active, button:hover, button:focus {
 	outline: none;
+}
+
+button {
+    display: block;
+    position: absolute;
+    right: 20px;
+    background: rgb(135, 168, 209);
+    color: white;
+    padding: 10px 15px;    border: 1px solid #648dc1;    
+    border-radius: 2px;    
+    text-shadow: 1px 1px 0px #648dc1;
+}
+
+button:hover {
+    background: rgb(156, 185, 221);
+    cursor: pointer;
+}
+
+button:active {
+    background: rgb(111, 141, 179);
+    border: 1px solid rgb(52, 79, 113);
+    box-shadow: 0 0 2px rgb(69, 95, 126) inset;
 }
 
 .total {
@@ -302,6 +335,17 @@ button:active, button:hover, button:focus {
 .history-list ul li {
     line-height: 3em;
     padding: 0 20px;
+}
+
+.history-list a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.history-list li:hover {
+    background: rgb(222, 231, 239)!important;
+    cursor: pointer;
 }
 
 a.more {
@@ -345,6 +389,8 @@ div#add-popup {
 div#add-popup form {
     padding: 20px;
     opacity: 0;
+    transition: opacity 0.2s ease;
+    -webkit-transition: opacity 0.2s ease;
 }
 
 div#add-popup .entry-header {
@@ -361,6 +407,64 @@ div#add-popup.show {
     display: block;
     animation: slideUp 0.2s ease forwards;  
     -webkit-animation: slideUp 0.2s ease forwards;
+}
+
+div#add-popup.send {
+    animation: slideOut 0.2s ease forwards;  
+    -webkit-animation: slideOut 0.2s ease forwards;
+}
+
+#add-popup form p {
+  font-weight: 500;
+  color: white;
+  background: #87a8d1;
+  display: block;
+  width: 100%;
+  text-indent: 10px;
+  line-height: 2em;
+  border: 1px solid #648dc1;
+  border-radius: 5px 0 5px 0;
+  text-shadow: 1px 1px 5px #648dc1;
+}
+
+#add-popup form input,#add-popup form select {
+    margin: 20px 0;
+}
+
+#add-popup form input[type="radio"] {
+    margin-right: 15px;
+}
+
+#add-popup form label {
+    padding-right: 5px;
+}
+
+#add-popup span.after-qty {
+    margin-left: 10px;
+}
+
+#add-popup select.typ, input {
+    padding: 5px 15px;
+    border: 1px solid rgb(87, 136, 193);
+    border-radius: 2px;
+    line-height: 2em;
+    color: rgb(87, 136, 193);
+    font-size: 1.1em;
+    outline: none;
+    margin: 20px 0;
+    transition: background 0.1s ease;
+    -webkit-transition: background 0.1s ease;
+}
+
+#add-popup select.typ option {
+    line-height: 2em;
+    padding: 10px;
+    height: 10px;
+    font-size: 2em;
+}
+
+#add-popup select.typ:focus, input:focus {
+  background: #e0e9f4;
 }
 
 table.forf {

@@ -1,11 +1,11 @@
-
 <?php
+$user_id = $_SESSION['user']['id'];
 // On récupère ...
-$ficheCourante = $gsb->getCurrentSheet($_SESSION['user']['id']); // ... la fiche courante de l'utilisateur en tableau
+$ficheCourante = $gsb->getCurrentSheet($user_id); // ... la fiche courante de l'utilisateur en tableau
 if(!$ficheCourante) { //Si aucune fiche n'est ouverte pour le mois en cours, on en crée une nouvelle
-	$ficheCourante = $gsb->openNewSheet($_SESSION['user']['id']);
+	$ficheCourante = $gsb->openNewSheet($user_id);
 }
-$fiches = $gsb->getSheetsFromUser($_SESSION['user']['id'], 5); // ... toutes les fiches de l'utilisateur actuel en tableau
+$fiches = $gsb->getSheetsFromUser($user_id, 1, 5); // ... toutes les fiches de l'utilisateur actuel en tableau
 $detailFiche = $gsb->getSheetDetails($ficheCourante['id']); // ... les détails de cette même fiche (les lignes)
 $montantsType = $gsb->getFeeAmounts(); // ... les coûts de chaque type
 $libellesEtat = $gsb->getStates(); // ... les libéllés des types
@@ -99,8 +99,10 @@ include("navigation.php");
 						$etat = $libellesEtat[$fiche['id_etat']];
 					?>
 					<li>
+						<a href="/details.php?fiche=<?=$fiche['id'];?>">
 						<span class="date"><?= $month . " " . $year; ?></span>
 						<span class="etat"><strong>Etat : </strong><?= $etat; ?></span>
+						</a>
 					</li>
 					<?php
 					}
@@ -116,19 +118,26 @@ include("navigation.php");
 				<span>Ajouter un frais</span>
 				<button type="button" class="red" id="cancel">Annuler</button>
 			</div>		
-			<form action="">
+			<form action="" method="post">
 				<p>Catégorie :</p>
-				<input type="radio" name="cat_frais" value="Forfaitaire">
-				<input type="radio" name="cat_frais" value="Hors forfait">
-				<p>Type :</p>
-				<select name="type_frais">
-					<option value="ETP"></option>
-					<option value="KM"></option>
-					<option value="NUI"></option>
-					<option value="REP"></option>
+				<label for="cat_fraisf">Frais forfaitaire</label>
+				<input type="radio" name="cat_frais" id="cat_fraisf" value="forf" checked>
+				<label for="cat_fraish">Frais hors-forfait</label>
+				<input type="radio" name="cat_frais" id="cat_fraish" value="horsforf">
+				<p class="typ">Type de frais :</p>
+				<select class="typ" name="type_frais">
+					<optgroup label="Type de frais" default>
+						<option value="ETP">Etapes</option>
+						<option value="KM">Voyage</option>
+						<option value="NUI">Nuitées</option>
+						<option value="REP">Repas</option>					
+					</optgroup>
 				</select>
-				<p>Quantité :</p>
-				<input type="number" name="qty" value="0" min="0">
+				<p class="lib">Libellé :</p>
+				<input type="text" class="lib" name="libelle" placeholder="Intitulé du frais...">				
+				<p class="qty">Quantité :</p>
+				<input type="number" class="qty" name="qty" value="0" min="0">
+				<button type="submit">Envoyer</button>
 			</form>
 		</div>
 		

@@ -1,7 +1,9 @@
 <?php
 class GSB {
 
-	/* Attributs */
+	/************************* 
+	* Attributs 
+	*************************/
 	public $slogan = "";
 	private $site_title_default = "Portail GSB";
 	public $site_title = "Portail GSB";
@@ -10,13 +12,17 @@ class GSB {
 	public $SITE_PATH;
 	public $INCLUDE_PATH;
 
-	/* Constructeurs */
+	/************************* 
+	* Constructeurs 
+	*************************/
 	public function __construct() {
 		$this->SITE_PATH = $_SERVER['DOCUMENT_ROOT'];
 		$this->INCLUDE_PATH = $this->SITE_PATH."includes/";
 	}
 
-	/* Méthodes */
+	/************************* 
+	* Méthodes 
+	*************************/
 
 	/**
 	 * Change le nom du site ou le met à jour
@@ -82,7 +88,7 @@ class GSB {
 
 	public function openNewSheet($user_id) {
 		$bdd = $this->MySQLInit();
-		$bdd->query("UPDATE fiche SET id_etat='CL' WHERE id_etat='CR'");
+		$bdd->query("UPDATE fiche SET id_etat='CL' WHERE id_etat='CR' AND id_utilisateur = '$user_id'");
 		$bdd->query("INSERT INTO fiche(id_utilisateur, id_etat) VALUES('$user_id','CR')");
 		return $this->getCurrentSheet($user_id);
 	}
@@ -107,10 +113,10 @@ class GSB {
 	 * @user_id	(int)	ID de l'utilsateur
 	 * @return un tableau contenant les fiches
 	 */ 	
-	public function getSheetsFromUser($user_id, $qty) {
+	public function getSheetsFromUser($user_id, $start, $qty) {
 		$result = Array();
 		$bdd = $this->MySQLInit();
-		$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur=? ORDER BY date DESC LIMIT $qty");
+		$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur=? ORDER BY date DESC LIMIT $start,$qty");
 		$res->execute(array($user_id));
 		while($data = $res->fetch()) {
 			array_push($result, $data);
@@ -122,7 +128,12 @@ class GSB {
 		}		
 	}	
 
-	//renvoie la fiche dont l'ID est passé en paramètre dans un tableau
+	/**
+	 * Renvoie la fiche dont l'ID est passé en paramètre dans un tableau
+	 *
+	 * @id	(int)	ID de la fiche
+	 * @return un tableau contenant la fiche ou false si elle n'existe pas
+	 */ 	
 	public function getSheetById($id) {
 		$bdd = $this->MySQLInit();
 		$res = $bdd->prepare("SELECT * FROM fiche WHERE id=?");
@@ -130,7 +141,7 @@ class GSB {
 		return $res->fetch();
 	}	
 
-	public function getOpenedSheets() {
+	public function getUnvalidatedSheets() {
 
 	}
 
