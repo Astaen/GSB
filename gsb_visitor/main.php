@@ -93,10 +93,11 @@ include("navigation.php");
 			<div class="history-list">
 				<ul>
 					<?php
-					foreach ($fiches as $key => $fiche) {
-						$month = $gsb->month[(int)date("n", strtotime($fiche['date']))-1];
-						$year = date("Y", strtotime($fiche['date']));
-						$etat = $libellesEtat[$fiche['id_etat']];
+					if($fiches) {
+						foreach ($fiches as $key => $fiche) {
+							$month = $gsb->month[(int)date("n", strtotime($fiche['date']))-1];
+							$year = date("Y", strtotime($fiche['date']));
+							$etat = $libellesEtat[$fiche['id_etat']];
 					?>
 					<li>
 						<a href="/details.php?fiche=<?=$fiche['id'];?>">
@@ -105,12 +106,16 @@ include("navigation.php");
 						</a>
 					</li>
 					<?php
+						}
+						echo '<a class="more" href="/fiches.php">Afficher plus ...</a>';
+					} else {
+						echo "<p class=\"no-frais\">Aucune fiche de frais n'a été rentrée</p>";
 					}
 					?>									
 				</ul>
 			</div>
-		<a class="more" href="/fiches.php">Afficher plus ...</a>
-
+			<!-- Lien ajouter dans la condition juste au dessus, si il y a des fiches de frais -->
+			<!--	<a class="more" href="/fiches.php">Afficher plus ...</a>	-->
 		</div><!-- /historique -->
 
 		<div id="add-popup">

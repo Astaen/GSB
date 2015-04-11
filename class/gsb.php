@@ -82,7 +82,13 @@ class GSB {
 	 */ 
 	public function printAriane() {
 		if($_SESSION['user']['type'] == 'vis') {
-			return "<strong>Interface Visiteur ></strong> Tableau de bord";
+			$name = "";
+			$url = substr($_SERVER['REQUEST_URI'], 1); // Enlève le caractère "/"
+			if(!$url)						{ $name = "Tableau de bord"; } // Dans le cas où on est à la racine (page d'accueil)
+			else if($url == "index.php") 	{ $name = "Tableau de bord"; }
+			else if($url == "fiches.php") 	{ $name = "Gestion des frais"; }
+			else 							{ $name = "Gestion des frais"; } // Dans le cas où on serait sur la page détail
+			return "<strong>Interface Visiteur ></strong> $name";
 		}
 	}
 
@@ -195,6 +201,21 @@ class GSB {
 		return date("Y", strtotime($date));
 	}	
 
+	// Fonction test pour recherche
+	public function searchSheetsByDate($user_id, $keyword) {
+		$founded = array();
+		if(empty($keyword)) { return false; }
+		$bdd = $this->MySQLInit();
+		$bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Pour debugg, à enlever plus tard
+		$sql = "SELECT * ";
+		$sql .="FROM fiche WHERE id_utilisateur = $user_id ";
+		$sql .="AND YEAR(date) = $keyword OR MONTH(date) = $keyword";
+		$res = $bdd->query($sql);
+		while($data = $res->fetch(PDO::FETCH_ASSOC)) {
+			array_push($founded, $data);
+		}
+		return $founded;
+	}
 }
 
 $gsb = new GSB();

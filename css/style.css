@@ -504,3 +504,26 @@ table.forf tr:nth-child(odd) {
 p.no-frais {
     text-align: center;
 }
+
+/*  BARRE DE RECHERCHE  */
+.search { /* Formulaire */
+    position: absolute;
+    display: inline-block;
+    right: 20px;
+    top: 10px;
+    height: 35px;
+}
+.search-history { margin: 0px; padding: 0 10px; } /* Input */
+.search-history::-webkit-input-placeholder {color: #87a8d1;} /* Placeholder */
+.search-icon:before{ /* Icone recherche */
+    content: "\e800";
+    font-family: "Fontello";
+    color: #87a8d1;
+
+    position: absolute;
+    right: 0px;
+    top: 0px;
+
+    padding: 9px 20px;
+    border-left:  1px solid #648dc1;
+}
