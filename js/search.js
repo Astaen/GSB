@@ -7,6 +7,7 @@ $(document).ready(function() {
 		  url: "../ajax/search-history.php",
 		  data: data
 		}).done(function( msg ) {
+			console.log(msg);
 			data = JSON.parse(msg);
 			if(data) { // Retour en JSON, donc string ***** Pourquoi le test == "false" ? On n'entrerait jamais dans la condition en cas de retour
 				var show = "";
@@ -20,6 +21,10 @@ $(document).ready(function() {
 				});
 				$(".history-list > ul").empty();
 				$(".history-list > ul").append(show);
+			} else {
+				$(".history-list > ul").empty();
+				$("#search-history").val("").focus();
+				$(".history-list > ul").append('<li><p>Aucun résultat trouvé pour "'+keyword+'".</li>');
 			}
 		});
 	}

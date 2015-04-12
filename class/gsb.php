@@ -203,18 +203,20 @@ class GSB {
 
 	// Fonction test pour recherche
 	public function searchSheetsByDate($user_id, $keyword) {
-		$founded = array();
+		$found = array();
 		if(empty($keyword)) { return false; }
 		$bdd = $this->MySQLInit();
 		$bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Pour debugg, à enlever plus tard
-		$sql = "SELECT * ";
-		$sql .="FROM fiche WHERE id_utilisateur = $user_id ";
-		$sql .="AND YEAR(date) = $keyword OR MONTH(date) = $keyword";
-		$res = $bdd->query($sql);
+		$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = ? AND YEAR(date) = ? OR MONTH(date) = ?");
+		$res->execute(array($user_id, $keyword, $keyword));
 		while($data = $res->fetch(PDO::FETCH_ASSOC)) {
-			array_push($founded, $data);
+			array_push($found, $data);
 		}
-		return $founded;
+		if(sizeof($found)) {
+			return $found;
+		} else {
+			return false;
+		}
 	}
 }
 
