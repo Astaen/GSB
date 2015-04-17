@@ -218,8 +218,27 @@ ul.nav-menu li:active {
     font-size: 1.2em;
 }
 
+.summary-header span:last-child {
+    position: absolute;
+    right: 20px;
+}
 
 .summary-header:after, .history-header:after {
+    content: "";
+    display: block;
+    width: 95%;
+    margin: auto;
+    height: 1px;
+    margin-top: 15px;
+    background: #c17664;
+}
+
+.entry-header {
+    padding: 20px 20px 0 20px;
+    font-size: 1.2em;
+}
+
+.entry-header:after {
     content: "";
     display: block;
     width: 95%;
@@ -285,21 +304,149 @@ button:active, button:hover, button:focus {
     padding: 0 20px;
 }
 
+.history-list a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.history-list li:hover {
+    background: rgba(209,149,135,0.7)!important;
+    cursor: pointer;
+}
+
 a.more {
     display: block;
     text-align: center;
     background: #f4e4e0;
     padding: 5px;
-    color: rgb(100, 141, 193);
     text-decoration: none;
     transition: background 0.2s ease;
 }
 
 a.more:hover {
-    background: #C7D5E5;
-    color: rgb(81, 116, 161);
+    background: #d19587;
+    color: #f4e4e0;
 }
 
 div#history {
     margin-top: 2em;
 }
+
+span.proprietaire {
+    position: absolute;
+    left: 200px;
+}
+span.etat {
+    position: absolute;
+    right: 20px;
+}
+
+input {
+    padding: 5px 15px;
+    border: 1px solid rgb(87, 136, 193);
+    border-radius: 2px;
+    line-height: 2em;
+    color: rgb(87, 136, 193);
+    font-size: 1.1em;
+    outline: none;
+    margin: 20px 0;
+    transition: background 0.1s ease;
+    -webkit-transition: background 0.1s ease;
+}
+
+/*  BARRE DE RECHERCHE  */
+.search { /* Formulaire */
+    position: absolute;
+    display: inline-block;
+    right: 20px;
+    top: 10px;
+    height: 35px;
+}
+input.search-history {
+    border: 1px solid #c17664;
+}
+.search-history { margin: 0px; padding: 0 10px; } /* Input */
+.search-history::-webkit-input-placeholder {color: #c17664;} /* Placeholder */
+.search-icon:before{ /* Icone recherche */
+    content: "\e800";
+    font-family: "Fontello";
+    color: #c17664;
+
+    position: absolute;
+    right: 0px;
+    top: 0px;
+
+    padding: 9px 20px;
+    border-left:  1px solid #c17664;
+}
+
+p.no-frais {
+    text-align: center;
+}
+
+.amount-details {
+    text-align: right;
+    font-size: 1em;
+    padding: 0 20px;
+    color: #c17664;
+}
+
+#form-change-etat {
+    position: absolute;
+    display: inline-block;
+    right: 20px;
+    top: 10px;
+    height: 36px;
+}
+#form-change-etat input {
+    margin: 0;
+    padding: 0 10px;
+    background: #f4e4e0;
+    color: inherit;
+    border: 1px solid #d19587;
+    font-size: 1.1em;
+    line-height: 36px;
+    cursor: pointer;
+}
+#form-change-etat input:hover {background: rgba(209,149,135, 0.5);}
+
+select#action-etat {
+    padding: 5px;
+    border: 1px solid #c17664;
+    border-radius: 2px;
+    color: #c17664;
+    font-size: 1.1em;
+    cursor: pointer;
+    outline: none;
+}
+
+table.forf {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+table.forf th {
+    background: rgba(209,149,135, 0.5);
+    font-size: 1em;
+    padding: 5px;
+}
+
+table.forf td {
+    padding: 5px;
+    text-align: center;
+    border-right: 1px solid #ccc;
+}
+table.forf td:last-child {
+    border-right: none;
+}
+
+table.forf tr td:last-child, table.forf tr th:last-child {
+    width: 150px;
+}
+table.forf tr:nth-child(odd) {
+    background: #f4e4e0;
+}
+
+span.alert-success {color: #26ad31; display: none;}
+span.alert-error {color: #e62222; display: none;}

@@ -29,6 +29,20 @@ $total_hors_forfait = 0;
 	<div class="summary">
 		<div class="entry-header">
 			<span>Frais du mois de <?= $gsb->getMonth($fiche['date'])." ".$gsb->getYear($fiche['date']); ?></span>
+			<?php 
+			if($_SESSION['user']['type'] == 'com') {
+				echo '<form id="form-change-etat">';
+					echo '<span class="alert-success">Modification réussite</span>';
+					echo '<span class="alert-error">Modification impossible</span>';
+					echo '<select id="action-etat">';
+						echo '<option value="CL">Cloturer</option>';
+						echo '<option value="RB">Rembourser</option>';
+						echo '<option value="VA">Valider</option>';
+					echo '</select>';
+					echo '<input type="submit" value="Valider" />';
+				echo '</form>';
+			}
+			?>
 		</div>
 		<div class="entry-header">
 			<span>Frais forfaitaire</span>

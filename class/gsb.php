@@ -89,6 +89,14 @@ class GSB {
 			else if($url == "fiches.php") 	{ $name = "Gestion des frais"; }
 			else 							{ $name = "Gestion des frais"; } // Dans le cas où on serait sur la page détail
 			return "<strong>Interface Visiteur ></strong> $name";
+		} else {
+			$name = "";
+			$url = substr($_SERVER['REQUEST_URI'], 1); // Enlève le caractère "/"
+			if(!$url)						{ $name = "Tableau de bord"; } // Dans le cas où on est à la racine (page d'accueil)
+			else if($url == "index.php") 	{ $name = "Tableau de bord"; }
+			else if($url == "fiches.php") 	{ $name = "Gestion des frais"; }
+			else 							{ $name = "Gestion des frais"; } // Dans le cas où on serait sur la page détail
+			return "<strong>Interface Comptable ></strong> $name";
 		}
 	}
 
@@ -117,6 +125,8 @@ class GSB {
 	 * Renvoie toutes les fiches de l'utilisateur dont l'ID est passé en paramètre, dans un tableau
 	 *
 	 * @user_id	(int)	ID de l'utilsateur
+	 * @start 	(int)	Début de la recherche
+	 * @qty 	(int)	Quantité de résultat max
 	 * @return un tableau contenant les fiches
 	 */ 	
 	public function getSheetsFromUser($user_id, $start, $qty) {
@@ -217,6 +227,56 @@ class GSB {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Renvoie toute les fiches qui on l'état "En cours" dans un tableau
+	 *
+	 * @return un tableau contenant les fiches ou false si aucune n'est ouverte
+	 */ 
+	public function getOpenedSheets() {
+		$open = array();
+		$bdd = $this->MySQLInit();
+		$res = $bdd->query("SELECT * FROM fiche WHERE id_etat = 'CR'");
+		while ($sheet = $res->fetch(PDO::FETCH_ASSOC)) {
+			array_push($open, $sheet);
+		}
+		if(sizeof($open))
+			return $open;
+		else
+			return false;
+	}
+
+	/**
+	 * Renvoie le nom et le prénom d'un utilisateur
+	 *
+	 * @user_id		(int)	ID de l'utilisateur
+	 * @return Un tableau
+	 */
+	public function getUserInfo($user_id) {
+		$bdd = $this->MySQLInit();
+		$res = $bdd->prepare("SELECT nom, prenom FROM utilisateur WHERE id = ?");
+		$res->execute(array($user_id));
+		$data = $res->fetch(PDO::FETCH_ASSOC);
+		return $data;
+	}
+
+	/**
+	 * Renvoie toute les fiches de frais qui ne son pas en état "En cours"
+	 *
+	 * @return Si aucun résultat renvoie FALSE, sinon une tableau à 3 dimenssions
+	 */
+	public function getEverySheetsNotOpen() {
+		$sheets = array();
+		$bdd = $this->MySQLInit();
+		$res = $bdd->query("SELECT * FROM fiche WHERE id_etat NOT IN('CR')");
+		while($fiche = $res->fetch(PDO::FETCH_ASSOC)) {
+			array_push($sheets, $fiche);
+		}
+		if(sizeof($sheets))
+			return $sheets;
+		else
+			return false;
 	}
 }
 

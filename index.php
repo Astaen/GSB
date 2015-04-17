@@ -14,6 +14,7 @@ if(!isset($_SESSION['logged'])) {
 		include("header.php");
 		include("gsb_visitor/main.php");
 	} else {
+		$gsb->setTitle("Tableau de bord", true);
 		include("header.php");
 		include("gsb_accountant/main.php");
 	}	
