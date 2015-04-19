@@ -211,12 +211,18 @@ class GSB {
 		return date("Y", strtotime($date));
 	}	
 
-	// Fonction test pour recherche
-	public function searchSheetsByDate($user_id, $keyword) {
-		$found = array();
+	/**
+	 * Retourne toute les fiches recherché avant une date ou plusieurs date
+	 *
+	 * @keyword 	(string/int)	Date clé(s)
+	 * @user_id		(int)			ID de l'utilisateur
+	 * 
+	 * @return 		(array)			Contenant toute les fiches
+	 */
+	public function searchSheetsByDate($keyword, $user_id = null) {
+		/*$found = array();
 		if(empty($keyword)) { return false; }
 		$bdd = $this->MySQLInit();
-		$bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Pour debugg, à enlever plus tard
 		$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = ? AND YEAR(date) = ? OR MONTH(date) = ?");
 		$res->execute(array($user_id, $keyword, $keyword));
 		while($data = $res->fetch(PDO::FETCH_ASSOC)) {
@@ -226,7 +232,128 @@ class GSB {
 			return $found;
 		} else {
 			return false;
+		}*/
+		if(empty($keyword)) { return false; }
+		$found = array();
+		$bdd = $this->MySQLInit();
+		// Si on veut rechercher les fiches d'un utilisateur en particulier (visiteur)
+		if(isset($user_id)) {
+			// Si il y a 1 mot clé
+			if(sizeof($keyword) == 1) { // Recherche l'année ou le mois
+				$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = ? AND YEAR(date) = ? OR MONTH(date) = ?");
+				$res->execute(array($user_id, $keyword, $keyword));
+				while($data = $res->fetch(PDO::FETCH_ASSOC)) {
+					array_push($found, $data);
+				}
+			}
+			else { // Recherche le mois puis l'année
+				$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = ? AND MONTH(date) = ? AND YEAR(date) = ?");
+				$res->execute(array($user_id, $keyword[0], $keyword[1]));
+				while($data = $res->fetch(PDO::FETCH_ASSOC)) {
+					array_push($found, $data);
+				}
+				// Si on trouve rien on test l'autre possibilité | Recherche l'année puis le mois
+				if(empty($found)) {
+					$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = ? AND YEAR(date) = ? AND MONTH(date) = ?");
+					$res->execute(array($user_id, $keyword[0], $keyword[1]));
+					while($data = $res->fetch(PDO::FETCH_ASSOC)) {
+						array_push($found, $data);
+					}
+				}
+			}
 		}
+		// Sinon on recherche toutes les fiches de tout les utilisteurs (compta)
+		else {
+			// Si il y a 1 mot clé
+			if(sizeof($keyword) == 1) {
+				$res = $bdd->prepare("SELECT * FROM fiche WHERE MONTH(date) = ? OR YEAR(date) = ?");
+				$res->execute(array($keyword, $keyword));
+				while($data = $res->fetch(PDO::FETCH_ASSOC)) {
+					array_push($found, $data);
+				}
+			}
+			else {
+				$res = $bdd->prepare("SELECT * FROM fiche WHERE MONTH(date) = ? AND YEAR(date) = ?");
+				$res->execute(array($keyword[0], $keyword[1]));
+				while($data = $res->fetch(PDO::FETCH_ASSOC)) {
+					array_push($found, $data);
+				}
+				if(empty($found)) {
+					$res = $bdd->prepare("SELECT * FROM fiche WHERE YEAR(date) = ? AND MONTH(date) = ?");
+					$res->execute(array($keyword[0], $keyword[1]));
+					while($data = $res->fetch(PDO::FETCH_ASSOC)) {
+						array_push($found, $data);
+					}
+				}
+			}
+		}
+		// Retour
+		if(sizeof($found)) {
+			return $found;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Renvoie toute les fiches dont le mot clé est dans le champ nom ou prénom
+	 *
+	 * @keyword 	(string)	Mot clé pour la recherche
+	 * @return un tableau contenant les fiches ou false si aucune n'est ouverte
+	 */
+	public function searchSheetsByKeyword($keyword, $user_id = null) {
+		if(empty($keyword)) { return false; }
+		$bdd = $this->MySQLInit();
+		if(isset($user_id)) { //Si on veut rechercher les fiches d'un utilisateur en particulier (visiteur)
+			if(sizeof($keyword) == 1) {
+				// Cherche des fiches par un nom ou prenom
+				$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = ? AND id_utilisateur = (SELECT id FROM utilisateur WHERE nom LIKE ? OR prenom LIKE ?)");
+				$res->execute(array($user_id, "%".$keyword."%", "%".$keyword."%"));
+				$found = $res->fetchAll(PDO::FETCH_ASSOC);
+			}
+			else {
+				$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = ? AND id_utilisateur = (SELECT id FROM utilisateur WHERE nom LIKE ? AND prenom LIKE ?)");
+				$res->execute(array($user_id, "%".$keyword[0]."%", "%".$keyword[1]."%"));
+				$found = $res->fetchAll(PDO::FETCH_ASSOC);
+				if (empty($found)) {
+					$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = ? AND id_utilisateur = (SELECT id FROM utilisateur WHERE prenom LIKE ? AND nom LIKE ?)");
+					$res->execute(array($user_id, "%".$keyword[0]."%", "%".$keyword[1]."%"));
+					$found = $res->fetchAll(PDO::FETCH_ASSOC);
+				}
+			}
+		}
+		else { //Sinon on recherche toutes les fiches de tout les utilisteurs (compta)
+			if(sizeof($keyword) == 1) {
+				// Cherche des fiches par un nom ou prenom
+				$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = (SELECT id FROM utilisateur WHERE nom LIKE ? OR prenom LIKE ?)");
+				$res->execute(array("%".$keyword."%", "%".$keyword."%"));
+				$found = $res->fetchAll(PDO::FETCH_ASSOC);
+			}
+			else {
+				$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = (SELECT id FROM utilisateur WHERE nom LIKE ? AND prenom LIKE ?)");
+				$res->execute(array("%".$keyword[0]."%", "%".$keyword[1]."%"));
+				$found = $res->fetchAll(PDO::FETCH_ASSOC);
+				if(empty($found)) {
+					$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = (SELECT id FROM utilisateur WHERE prenom LIKE ? AND nom LIKE ?)");
+					$res->execute(array("%".$keyword[0]."%", "%".$keyword[1]."%"));
+					$found = $res->fetchAll(PDO::FETCH_ASSOC);
+				}
+			}
+		}
+		// Retour
+		if(sizeof($found)) {
+			return $found;
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
+	 * Retourne un mot avec la premier lettre en Majuscule (pour la recherche dans la DB)
+	 */
+	public function FirstToUpper($word) {
+		return ucfirst(strtolower($word));
 	}
 
 	/**

@@ -15,7 +15,6 @@ $(document).ready(function() {
 					show+="<li>";
 						show+="<a href=/details.php?fiche="+el.id+">";
 							show+='<span class="date">'+el.date+'</span>';
-							if(el.fiche_de) {show+='<span class="proprietaire"><strong>Fiche de : </strong>'+el.fiche_de+'</span>';}
 							show+='<span class="etat"><strong>Etat : </strong>'+el.id_etat+'</span>';
 						show+="</a>";
 					show+="</li>";

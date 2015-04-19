@@ -6,7 +6,7 @@ $(document).ready(function(){
 		var id = window.location.href;
 			id = id.substr( (id.length-1) , (id.length) ); // Récupère l'ID de la fiche via l'url
 		$.ajax({
-			method: "POST",
+			method: "GET",
 			url: "/ajax/change-states.php",
 			data: {etat: etat, id_fiche: id }
 		}).done(function(msg) {
