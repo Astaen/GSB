@@ -8,7 +8,7 @@ include("header.php");
 if($_SESSION['user']['type'] == 'vis') { // SI C'EST UN VISITEUR
 	include("gsb_visitor/navigation.php"); // Affiche l'interface du visiteur
 
-	$fiches = $gsb->getSheetsFromUser($_SESSION['user']['id'], 1, 8); // ... toutes les fiches de l'utilisateur actuel en tableau
+	$fiches = $gsb->getSheetsFromUser($_SESSION['user']['id']); // ... toutes les fiches de l'utilisateur actuel en tableau
 	$libellesEtat = $gsb->getStates(); // ... les libéllés des types
 ?>
 

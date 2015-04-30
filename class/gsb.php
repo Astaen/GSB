@@ -129,11 +129,16 @@ class GSB {
 	 * @qty 	(int)	Quantité de résultat max
 	 * @return un tableau contenant les fiches
 	 */ 	
-	public function getSheetsFromUser($user_id, $start, $qty) {
+	public function getSheetsFromUser($user_id, $start = null, $qty = null) {
+		if($qty == null || $start = null) {
+			$sql = "SELECT * FROM fiche WHERE id_utilisateur=$user_id ORDER BY date DESC";
+		} else {
+			$sql = "SELECT * FROM fiche WHERE id_utilisateur=$user_id ORDER BY date DESC LIMIT $start,$qty";
+		}
+		var_dump($sql);
 		$result = Array();
 		$bdd = $this->MySQLInit();
-		$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur=? ORDER BY date DESC LIMIT $start,$qty");
-		$res->execute(array($user_id));
+		$res = $bdd->query($sql);
 		while($data = $res->fetch()) {
 			array_push($result, $data);
 		}
@@ -353,7 +358,13 @@ class GSB {
 	 * Retourne un mot avec la premier lettre en Majuscule (pour la recherche dans la DB)
 	 */
 	public function FirstToUpper($word) {
-		return ucfirst(strtolower($word));
+		if(is_array($word)) {
+			foreach ($word as $keyword) {
+				$keyword = ucfirst(strtolower($keyword));
+			}
+			return $word;
+		}
+		else { return ucfirst(strtolower($word)); }
 	}
 
 	/**
