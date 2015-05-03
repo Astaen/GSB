@@ -1,0 +1,275 @@
+/* Clignotement */
+@-webkit-keyframes flash {
+	0% {border: 2px solid rgba(106,214,255,0.1);}
+	100% {border: 2px solid rgba(106,214,255,1);}
+}
+
+/* Ecran noir */
+.tuto {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	height: 100%;
+	width: 100%;
+	background: rgba(0,0,0,0.6);
+}
+.tuto-container {
+	position: relative;
+	max-width: 1200px;
+	margin: auto;
+	height: 100%;
+}
+/* Titre bloc */
+.tuto-title {
+	font-family: Roboto, Arial;
+	color: #7ECDEC;
+	text-shadow: 0px 1px 0px #000;
+}
+/* Info bloc */
+.tuto-info {
+	color: #fff;
+	font-size: 17px;
+	text-shadow: 0px 1px 0px #000;
+}
+/* Bouton block */
+.btn-tuto {
+	all: initial;
+	position: absolute;
+	right: 20px;
+	bottom: -20px;
+	font-family: Roboto;
+	background: #68ADC8;
+	padding: 10px 15px;
+	border-radius: 2px;
+	border: 1px solid #333;
+	color: #fff;
+	text-shadow: 0px 1px 1px #000;
+	cursor: pointer;
+}
+.btn-tuto:hover { background: #51879D; }
+
+/* COOKIE BAR */
+.tuto-cookiebar {
+	position: fixed;
+	bottom: 0;
+	height: 50px;
+	width: 100%;
+	color: #fff;
+	background: rgba(0,0,0,0.7);
+	text-align: center;
+	line-height: 50px;
+}
+.btn-cookie {
+	top: 10px;
+	bottom: 10px;
+	right: 20px;
+	padding: 5px 10px;
+	cursor: pointer;
+}
+
+
+/* MESSAGE BIENVENUE */
+.firsttime {
+	position: absolute;
+	right: 50%;
+	top: 50%;
+	background: rgba(72, 118, 136, 1);
+	padding: 40px 20px;
+	transform: translateX(50%) translateY(-50%);
+	border-radius: 5px;
+	border: 1px solid #333;
+}
+
+
+/* FOCUS ARIANE */
+.tuto-wrap-ariane {
+	position: absolute;
+	left: 175px;
+	top: 62px;
+	height: auto;
+	width: 300px;
+
+	padding: 20px;
+	border: 1px solid #333;
+	background: rgba(72, 118, 136, 1);
+	color: #fff;
+	text-align: justify;
+	font-size: 17px;
+	text-shadow: 0px 1px 0px #000;
+	border-radius: 3px;
+}
+.tuto-wrap-ariane:before, .tuto-wrap-ariane:after {
+	content: '';
+	position: absolute;
+	border: 12px solid transparent;
+	width: 0;
+	height: 0;
+	bottom: 100%;
+	top: -13px;
+}
+.tuto-wrap-ariane:before {
+	border-width: 0px 12px 12px 12px;
+	border-color: transparent transparent #333 transparent;
+}
+.tuto-wrap-ariane:after {
+	left: 18px;
+	top: -12px;
+	border-width: 1px 14px 14px 14px;
+	border-color: transparent transparent rgba(72, 118, 136, 1) transparent;
+}
+.tuto-flash-ariane {
+	position: absolute;
+	height: 35px;
+	width: 268px;
+	left: 175px;
+	top: 12px;
+	border: 2px solid #6ad6ff;
+	border-radius: 2px;
+	-webkit-animation: flash 2s linear infinite alternate;
+}
+.tuto-flash-ariane-com { width: 290px; }
+
+
+/* MENU */
+.tuto-flash-menu {
+	position: relative;
+	width: 316px;
+	height: 395px;
+	left: 10px;
+	top: 80px;
+	border: 2px solid #6ad6ff;
+	border-radius: 2px;
+	-webkit-animation: flash 2s linear infinite alternate;
+}
+.tuto-wrap-menu {
+	position: absolute;
+	top: 80px;
+	left: 341px;
+	width: 300px;
+	height: auto;
+	border: 1px solid #000;
+
+	padding: 20px;
+	background: rgba(72, 118, 136, 1);
+	color: #fff;
+	text-align: justify;
+	font-size: 17px;
+	text-shadow: 0px 1px 0px #000;
+	border-radius: 3px;
+}
+.tuto-wrap-menu:before, .tuto-wrap-menu:after {
+	content: '';
+	position: absolute;
+	border: 12px solid transparent;
+	width: 0;
+	height: 0;
+	left: 100%;
+	transform: rotate(-90deg);
+}
+.tuto-wrap-menu:before {
+	top: 14px;
+	left: -24px;
+	border-color: transparent transparent rgba(0, 0, 0, 1) transparent;
+}
+.tuto-wrap-menu:after {
+	top: 18px;
+	left: -18px;
+	border-width: 1px 14px 15px 14px;
+	border-color: transparent transparent rgba(72, 118, 136, 1) transparent;
+}
+
+
+/* BOUTON AJOUTER FRAIS */
+.tuto-wrap-add {
+	position: absolute;
+	top: 156px;
+	right: 35px;
+	width: 200px;
+	height: auto;
+	border: 1px solid #000;
+
+	padding: 20px;
+	background: rgba(72, 118, 136, 1);
+	color: #fff;
+	text-align: justify;
+	font-size: 17px;
+	text-shadow: 0px 1px 0px #000;
+	border-radius: 3px;
+}
+.tuto-wrap-add:before, .tuto-wrap-add:after {
+	content: '';
+	position: absolute;
+	border: 12px solid transparent;
+	width: 0;
+	height: 0;
+	bottom: 100%;
+	top: -13px;
+}
+.tuto-wrap-add:before {
+	right: 20px;
+	border-width: 0px 12px 12px 12px;
+	border-color: transparent transparent rgba(0, 0, 0, 1) transparent;
+}
+.tuto-wrap-add:after {
+	right: 18px;
+	border-width: 1px 14px 14px 14px;
+	border-color: transparent transparent rgba(72, 118, 136, 1) transparent;
+}
+.tuto-flash-add {
+	position: absolute;
+	width: 104px;
+	height: 42px;
+	right: 35px;
+	top: 99px;
+	border: 2px solid #6ad6ff;
+	border-radius: 2px;
+	-webkit-animation: flash 2s linear infinite alternate;
+}
+
+
+/* FOCUS RESUMÉ FRAIS */
+.tuto-flash-monthsummary {
+	position: absolute;
+	width: 830px;
+	height: 268px;
+	top: 88px;
+	right: 13px;
+	border: 2px solid #6ad6ff;
+	border-radius: 2px;
+	-webkit-animation: flash 2s linear infinite alternate;
+}
+.tuto-wrap-monthsummary {
+	position: absolute;
+	top: 372px;
+	right: 13px;
+	width: 475px;
+	height: auto;
+	border: 1px solid #000;
+
+	padding: 20px;
+	background: rgba(72, 118, 136, 1);
+	color: #fff;
+	text-align: justify;
+	font-size: 17px;
+	text-shadow: 0px 1px 0px #000;
+	border-radius: 3px;
+}
+.tuto-wrap-monthsummary:before, .tuto-wrap-monthsummary:after {
+	content: '';
+	position: absolute;
+	border: 12px solid transparent;
+	width: 0;
+	height: 0;
+	bottom: 100%;
+	top: -13px;
+}
+.tuto-wrap-monthsummary:before {
+	right: 20px;
+	border-width: 0px 12px 12px 12px;
+	border-color: transparent transparent rgba(0, 0, 0, 1) transparent;
+}
+.tuto-wrap-monthsummary:after {
+	right: 18px;
+	border-width: 1px 14px 14px 14px;
+	border-color: transparent transparent rgba(72, 118, 136, 1) transparent;
+}
