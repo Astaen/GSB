@@ -1,11 +1,11 @@
 <?php 
 session_start();
-
+/*
 if(!isset($_GET['search'])) {
 	header("Location: /fiches.php");
 	die();
 }
-
+*/
 include($_SERVER['DOCUMENT_ROOT'] ."/class/gsb.php");
 
 // Récupère les mots clés
@@ -31,6 +31,7 @@ if(sizeof($user_search) == 1) {
 	if($_SESSION['user']['type'] == 'vis') {
 		// Recherche si une date(mois ou année) correspond à la recherche
 		$callback = $gsb->searchSheetsByDate($gsb->FirstToUpper($user_search), $_SESSION['user']['id']);
+		
 		// Si le aucune fiche n'a été trouver au dessus alors on essaye de chercher un nom ou prenom
 		if(!$callback) {
 			// Cherche dans le nom et prenom

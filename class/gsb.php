@@ -107,6 +107,12 @@ class GSB {
 		return $this->getCurrentSheet($user_id);
 	}
 
+	public function closeLastMonthSheets() {
+		$bdd = $this->MySQLInit();
+		$lastMonth = date("m")-1;
+		$bdd->query("UPDATE fiche SET id_etat='CL' WHERE id_etat='CR' AND MONTH(date) = '$lastMonth'");
+	}
+
 	//renvoie LA fiche de l'utilisateur ouverte ce mois-ci dont l'ID est passé en paramètre, dans un tableau (sans les détails)
 	/**
 	 * Renvoie toutes les fiches de l'utilisateur dont l'ID est passé en paramètre, dans un tableau
@@ -135,7 +141,6 @@ class GSB {
 		} else {
 			$sql = "SELECT * FROM fiche WHERE id_utilisateur=$user_id ORDER BY date DESC LIMIT $start,$qty";
 		}
-		var_dump($sql);
 		$result = Array();
 		$bdd = $this->MySQLInit();
 		$res = $bdd->query($sql);
@@ -225,19 +230,6 @@ class GSB {
 	 * @return 		(array)			Contenant toute les fiches
 	 */
 	public function searchSheetsByDate($keyword, $user_id = null) {
-		/*$found = array();
-		if(empty($keyword)) { return false; }
-		$bdd = $this->MySQLInit();
-		$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = ? AND YEAR(date) = ? OR MONTH(date) = ?");
-		$res->execute(array($user_id, $keyword, $keyword));
-		while($data = $res->fetch(PDO::FETCH_ASSOC)) {
-			array_push($found, $data);
-		}
-		if(sizeof($found)) {
-			return $found;
-		} else {
-			return false;
-		}*/
 		if(empty($keyword)) { return false; }
 		$found = array();
 		$bdd = $this->MySQLInit();
@@ -245,7 +237,7 @@ class GSB {
 		if(isset($user_id)) {
 			// Si il y a 1 mot clé
 			if(sizeof($keyword) == 1) { // Recherche l'année ou le mois
-				$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = ? AND YEAR(date) = ? OR MONTH(date) = ?");
+				$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = ? AND (YEAR(date) = ? OR MONTH(date) = ?)");
 				$res->execute(array($user_id, $keyword, $keyword));
 				while($data = $res->fetch(PDO::FETCH_ASSOC)) {
 					array_push($found, $data);
@@ -415,6 +407,17 @@ class GSB {
 			return $sheets;
 		else
 			return false;
+	}
+
+	public function changeStates($etat, $id) {
+		$bdd = $this->MySQLInit();
+		$req = $bdd->prepare("UPDATE fiche SET id_etat=? WHERE id = ?");
+		$req->execute(array($etat, $id));
+		if($req->rowCount() > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
 
