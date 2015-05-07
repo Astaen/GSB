@@ -1,14 +1,16 @@
 $(document).ready(function() {
 
 	function updateForm() {
-		if($('#add-popup input:checked').val() == "forf") {
+		if($('#add-popup input#cat_fraisf').prop("checked")) {
 			$(".lib").hide();
 			$(".typ").show();
+			$(".date_valeur").hide();
 			$("p.qty").text("Quantité :");
 			$("span.after-qty").remove();
 		} else {
 			$(".lib").show();
 			$(".typ").hide();
+			$(".date_valeur").show();
 			$("p.qty").text("Montant :");
 			$("input.qty").after("<span class='after-qty'>EUR</span>");
 		}
@@ -37,7 +39,34 @@ $(document).ready(function() {
 
 	$('#add-popup form').submit(function(e) {
 		e.preventDefault();
-		console.log(e);
+
+		data = {};
+
+		if($('#add-popup input#cat_fraisf').prop("checked")) {
+			data.cat_frais = "f";
+		} else {
+			data.cat_frais = "hf";
+		}
+
+		if(data.cat_frais == "f") {
+			data.type_frais = $("select.typ").val();
+			data.qty = $("input.qty").val();
+		} else  {
+			data.libelle = $("input.lib").val();
+			data.montant = $("input.qty").val();
+			data.date = $("input.date_valeur").val();
+		}
+
+		console.log(data);
+
+		$.ajax({
+		  method: "POST",
+		  url: "../ajax/update_sheet.php",
+		  data: {data: data}
+		}).done(function( msg ) {
+			console.log(msg);
+		  });
+
 		$('#add-popup').addClass("send");
 		var interval = setInterval(function() {
 			$('#add-popup').removeClass("show").removeClass("send");

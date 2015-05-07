@@ -5,7 +5,7 @@ $ficheCourante = $gsb->getCurrentSheet($user_id); // ... la fiche courante de l'
 if(!$ficheCourante) { //Si aucune fiche n'est ouverte pour le mois en cours, on en crée une nouvelle
 	$ficheCourante = $gsb->openNewSheet($user_id);
 }
-$fiches = $gsb->getSheetsFromUser($user_id, 1, 5); // ... toutes les fiches de l'utilisateur actuel en tableau
+$fiches = $gsb->getSheetsFromUser($user_id); // ... toutes les fiches de l'utilisateur actuel en tableau
 $detailFiche = $gsb->getSheetDetails($ficheCourante['id']); // ... les détails de cette même fiche (les lignes)
 $montantsType = $gsb->getFeeAmounts(); // ... les coûts de chaque type
 $libellesEtat = $gsb->getStates(); // ... les libéllés des types
@@ -126,9 +126,9 @@ include("navigation.php");
 			<form action="" method="post">
 				<p>Catégorie :</p>
 				<label for="cat_fraisf">Frais forfaitaire</label>
-				<input type="radio" name="cat_frais" id="cat_fraisf" value="forf" checked>
+				<input type="radio" name="cat_frais" id="cat_fraisf" checked>
 				<label for="cat_fraish">Frais hors-forfait</label>
-				<input type="radio" name="cat_frais" id="cat_fraish" value="horsforf">
+				<input type="radio" name="cat_frais" id="cat_fraish">
 				<p class="typ">Type de frais :</p>
 				<select class="typ" name="type_frais">
 					<optgroup label="Type de frais" default>
@@ -140,6 +140,8 @@ include("navigation.php");
 				</select>
 				<p class="lib">Libellé :</p>
 				<input type="text" class="lib" name="libelle" placeholder="Intitulé du frais...">				
+				<p class="date_valeur">Date valeur : </p>
+				<input type="date" class="date_valeur" name="date_valeur">
 				<p class="qty">Quantité :</p>
 				<input type="number" class="qty" name="qty" value="0" min="0">
 				<button type="submit">Envoyer</button>
