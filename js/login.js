@@ -10,16 +10,6 @@ $(document).ready(function() {
 		$('#login_form').css("top",Math.round(($(document).height()-350)/2)+"px");
 	})
 
-	showIndex = function() {
-		$.ajax({
-		  method: "POST",
-		  url: "index.php",
-		  data: {login: true}
-		}).done(function( msg ) {
-			document.innerHTML = msg;
-		  });		
-	}
-
 	$('#login_form').submit(function(e) {
 		e.preventDefault();
 		$("#login_form").removeClass("wrong");
@@ -35,9 +25,9 @@ $(document).ready(function() {
 		    	$(e.currentTarget).removeClass("wrong");
 		    	$('#login_form').addClass("logged");
 		    	interval = setInterval(function() {
-		    		showIndex();
+		    		window.location.replace("/");
 		    		clearInterval(interval);
-		    	},100);		    	
+		    	},150);		    	
 		    } else {
 		    	$("#login_form").addClass("wrong");
 		    	$('#login_form form').fadeIn("fast");
