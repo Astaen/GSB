@@ -16,7 +16,7 @@ $(document).ready(function() {
 		  url: "index.php",
 		  data: {login: true}
 		}).done(function( msg ) {
-			document.write(msg);
+			$(document).html(msg);
 		  });		
 	}
 
