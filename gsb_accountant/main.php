@@ -1,5 +1,6 @@
 <?php
 include("navigation.php");
+$gsb->closeLastMonthSheets();
 $fiches = $gsb->getOpenedSheets(); // Récupère les fiches En cours
 $libellesEtat = $gsb->getStates(); // ... les libéllés des types
 ?>
