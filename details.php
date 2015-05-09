@@ -29,20 +29,26 @@ $total_hors_forfait = 0;
 	<div class="summary">
 		<div class="entry-header">
 			<span>Frais du mois de <?= $gsb->getMonth($fiche['date'])." ".$gsb->getYear($fiche['date']); ?></span>
-			<?php if($_SESSION['user']['type'] == 'com') { ?>
-				<form id="form-change-etat">
-					<span class="etat-vis">État :</span>
-					<span class="alert-success">Modification réussite</span>
+			<?php if($_SESSION['user']['type'] == 'com'): ?>
+				<form id="form-change-etat" method="POST" action="">
+					<span class="alert-success">Modification réussie</span>
 					<span class="alert-error">Modification impossible</span>
-					<select id="action-etat">
-						<option value="CL">Cloturer</option>
-						<option value="RB">Rembourser</option>
-						<option value="VA">Valider</option>
+					<span class="etat-vis">État :</span>
+					<select id="action-etat" name="action-etat">
+						<option value="CL" <?= ($fiche['id_etat'] == "CL")?"selected":""; ?>>Cloturer</option>
+						<option value="RB" <?= ($fiche['id_etat'] == "RB")?"selected":""; ?>>Rembourser</option>
+						<option value="VA" <?= ($fiche['id_etat'] == "VA")?"selected":""; ?>>Valider</option>
 					</select>
-					<input type="submit" value="Valider" />
+					<input type="submit" name="change-state" value="Valider" />
 				</form>
-			<?php } ?>
+			<?php endif; ?>
 		</div>
+		<?php if($_SESSION['user']['type'] == 'com'): ?>
+		<div class="entry-header">
+			<?php $nom = $gsb->getUserInfo($fiche['id_utilisateur']); ?>
+			<span>Fiche de <?= $nom['nom'] . " " . $nom['prenom']; ?></span>
+		</div>
+		<?php endif; ?>
 		<div class="entry-header">
 			<span>Frais forfaitaire</span>
 		</div>

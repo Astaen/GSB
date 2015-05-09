@@ -7,7 +7,6 @@ $(document).ready(function() {
 		  url: "../ajax/search-history.php",
 		  data: data
 		}).done(function( msg ) {
-			console.log(msg);
 			data = JSON.parse(msg);
 			if(data) { // Retour en JSON, donc string ***** Pourquoi le test == "false" ? On n'entrerait jamais dans la condition en cas de retour
 				var show = "";
@@ -25,11 +24,25 @@ $(document).ready(function() {
 			} else {
 				$(".history-list > ul").empty();
 				$("#search-history").val("").focus();
-				$(".history-list > ul").append('<li><p>Aucun résultat trouvé pour "'+keyword+'".</li>');
+				if(keyword == "CL" || keyword == "RB" || keyword == "VA") {
+					// Filtre
+					var mot = "";
+					if (keyword == "CL") { mot = 'cloturé' };
+					if (keyword == "RB") { mot = 'remboursé' };
+					if (keyword == "VA") { mot = 'validé' };
+					$(".history-list > ul").append('<li><p>Aucun résultat trouvé pour l\'état "'+mot+'".</li>');
+				}
+				else {
+					// Recherche normal
+					$(".history-list > ul").append('<li><p>Aucun résultat trouvé pour "'+keyword+'".</li>');
+				}
 			}
 		});
 	}
 
+	/**
+	 * Barre de recherche
+	 */
 	// Lorsqu'on appuie sur Entrer pour envoyer
 	$(".search").submit(function(e){
 		e.preventDefault();
@@ -50,4 +63,15 @@ $(document).ready(function() {
 		}
 	});
 
+	/**
+	 * Filtre d'état
+	 */
+	$(".search-filter-value").change(function(e) {
+		e.preventDefault();
+		var keyword = $("#search-filter-value").val();
+		var data = "filter=" + keyword;
+		if(keyword != "") {
+			getCallback(keyword, data);
+		}
+	});
 });

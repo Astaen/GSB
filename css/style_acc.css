@@ -380,6 +380,24 @@ input.search-history {
     padding: 9px 20px;
     border-left:  1px solid #c17664;
 }
+.search-filter {
+    padding: 20px 20px;
+    font-size: 1em;
+}
+.search-filter:after {
+    content: "";
+    display: block;
+    width: 95%;
+    margin: auto;
+    height: 1px;
+    margin-top: 15px;
+    background: #c17664;
+}
+.search-filter-value {
+    padding: 5px;
+    color: #c17664;
+    font-size: 1em;
+}
 
 p.no-frais {
     text-align: center;

@@ -67,6 +67,15 @@ if($_SESSION['user']['type'] == 'vis') { // SI C'EST UN VISITEUR
 			<a href="" class="search-icon"></a>
 		</form>
 	</div>
+	<div class="search-filter">
+		<span>Trié par état : </span>
+		<select class="search-filter-value" id="search-filter-value">
+			<option value="">Choisir un état...</option>
+			<option value="CL">Cloturé</option>
+			<option value="VA">Validé</option>
+			<option value="RB">Remboursé</option>
+		</select>
+	</div>
 
 	<div class="history-list">
 		<?php if($fiches) { // Si il y a des fiches de frais... ?>

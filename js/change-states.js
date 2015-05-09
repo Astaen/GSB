@@ -4,7 +4,8 @@ $(document).ready(function(){
 		e.preventDefault();
 		var etat = $("#action-etat").val();
 		var id = window.location.href;
-			id = id.substr( (id.length-1) , (id.length) ); // Récupère l'ID de la fiche via l'url
+			id = id.substr( (id.indexOf("=")+1) , (id.length) ); // Récupère l'ID de la fiche via l'url
+			console.log(id);
 		$.ajax({
 			method: "GET",
 			url: "/ajax/change-states.php",

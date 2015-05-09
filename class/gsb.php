@@ -237,21 +237,21 @@ class GSB {
 		if(isset($user_id)) {
 			// Si il y a 1 mot clé
 			if(sizeof($keyword) == 1) { // Recherche l'année ou le mois
-				$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = ? AND (YEAR(date) = ? OR MONTH(date) = ?)");
+				$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = ? AND (YEAR(date) = ? OR MONTH(date) = ?) ORDER BY date DESC");
 				$res->execute(array($user_id, $keyword, $keyword));
 				while($data = $res->fetch(PDO::FETCH_ASSOC)) {
 					array_push($found, $data);
 				}
 			}
 			else { // Recherche le mois puis l'année
-				$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = ? AND MONTH(date) = ? AND YEAR(date) = ?");
+				$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = ? AND MONTH(date) = ? AND YEAR(date) = ? ORDER BY date DESC");
 				$res->execute(array($user_id, $keyword[0], $keyword[1]));
 				while($data = $res->fetch(PDO::FETCH_ASSOC)) {
 					array_push($found, $data);
 				}
 				// Si on trouve rien on test l'autre possibilité | Recherche l'année puis le mois
 				if(empty($found)) {
-					$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = ? AND YEAR(date) = ? AND MONTH(date) = ?");
+					$res = $bdd->prepare("SELECT * FROM fiche WHERE id_utilisateur = ? AND YEAR(date) = ? AND MONTH(date) = ? ORDER BY date DESC");
 					$res->execute(array($user_id, $keyword[0], $keyword[1]));
 					while($data = $res->fetch(PDO::FETCH_ASSOC)) {
 						array_push($found, $data);
@@ -263,20 +263,20 @@ class GSB {
 		else {
 			// Si il y a 1 mot clé
 			if(sizeof($keyword) == 1) {
-				$res = $bdd->prepare("SELECT * FROM fiche WHERE MONTH(date) = ? OR YEAR(date) = ?");
+				$res = $bdd->prepare("SELECT * FROM fiche WHERE MONTH(date) = ? OR YEAR(date) = ? ORDER BY date DESC");
 				$res->execute(array($keyword, $keyword));
 				while($data = $res->fetch(PDO::FETCH_ASSOC)) {
 					array_push($found, $data);
 				}
 			}
 			else {
-				$res = $bdd->prepare("SELECT * FROM fiche WHERE MONTH(date) = ? AND YEAR(date) = ?");
+				$res = $bdd->prepare("SELECT * FROM fiche WHERE MONTH(date) = ? AND YEAR(date) = ? ORDER BY date DESC");
 				$res->execute(array($keyword[0], $keyword[1]));
 				while($data = $res->fetch(PDO::FETCH_ASSOC)) {
 					array_push($found, $data);
 				}
 				if(empty($found)) {
-					$res = $bdd->prepare("SELECT * FROM fiche WHERE YEAR(date) = ? AND MONTH(date) = ?");
+					$res = $bdd->prepare("SELECT * FROM fiche WHERE YEAR(date) = ? AND MONTH(date) = ? ORDER BY date DESC");
 					$res->execute(array($keyword[0], $keyword[1]));
 					while($data = $res->fetch(PDO::FETCH_ASSOC)) {
 						array_push($found, $data);
@@ -399,7 +399,7 @@ class GSB {
 	public function getEverySheetsNotOpen() {
 		$sheets = array();
 		$bdd = $this->MySQLInit();
-		$res = $bdd->query("SELECT * FROM fiche WHERE id_etat NOT IN('CR')");
+		$res = $bdd->query("SELECT * FROM fiche WHERE id_etat NOT IN('CR') ORDER BY date DESC");
 		while($fiche = $res->fetch(PDO::FETCH_ASSOC)) {
 			array_push($sheets, $fiche);
 		}
@@ -418,6 +418,45 @@ class GSB {
 		} else {
 			return false;
 		}
+	}
+
+	public function getClosedSheets() {
+		$closed = array();
+		$bdd = $this->MySQLInit();
+		$res = $bdd->query("SELECT * FROM fiche WHERE id_etat = 'CL' ORDER BY date DESC");
+		while ($sheet = $res->fetch(PDO::FETCH_ASSOC)) {
+			array_push($closed, $sheet);
+		}
+		if(sizeof($closed))
+			return $closed;
+		else
+			return false;
+	}
+
+	public function getRefundedSheets(){
+		$refunded = array();
+		$bdd = $this->MySQLInit();
+		$res = $bdd->query("SELECT * FROM fiche WHERE id_etat = 'RB' ORDER BY date DESC");
+		while ($sheet = $res->fetch(PDO::FETCH_ASSOC)) {
+			array_push($refunded, $sheet);
+		}
+		if(sizeof($refunded))
+			return $refunded;
+		else
+			return false;
+	}
+
+	public function getValidatedSheets(){
+		$validated = array();
+		$bdd = $this->MySQLInit();
+		$res = $bdd->query("SELECT * FROM fiche WHERE id_etat = 'VA' ORDER BY date DESC");
+		while ($sheet = $res->fetch(PDO::FETCH_ASSOC)) {
+			array_push($validated, $sheet);
+		}
+		if(sizeof($validated))
+			return $validated;
+		else
+			return false;
 	}
 }
 
