@@ -34,7 +34,7 @@ $total_hors_forfait = 0;
 					<span class="alert-success">Modification réussie</span>
 					<span class="alert-error">Modification impossible</span>
 					<span class="etat-vis">État :</span>
-					<select id="action-etat" name="action-etat">
+					<select id="action-etat">
 						<option value="CL" <?= ($fiche['id_etat'] == "CL")?"selected":""; ?>>Cloturer</option>
 						<option value="RB" <?= ($fiche['id_etat'] == "RB")?"selected":""; ?>>Rembourser</option>
 						<option value="VA" <?= ($fiche['id_etat'] == "VA")?"selected":""; ?>>Valider</option>
