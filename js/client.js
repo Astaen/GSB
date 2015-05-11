@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+	/* Met à jour l'apparence du formulaire d'ajout pour frais forfait ou hors-forfait */
 	function updateForm() {
 		if($('#add-popup input#cat_fraisf').prop("checked")) {
 			$(".lib").hide();
@@ -16,11 +17,13 @@ $(document).ready(function() {
 		}
 	}
 
+	/* Action du bouton d'ajout */
 	$("button#add").click(function() {
 		$('#add-popup').addClass("show");
 		updateForm();
 	});
 
+	/* Sur la sélection de la catégorie de frais */
 	$("input#cat_fraish, input#cat_fraisf").change(function() {
 		updateForm();
 	});
@@ -94,7 +97,7 @@ $(document).ready(function() {
 				});				
 			} else {
 				if(!isNaN(result)) {
-					$('.hf_amt').html("<strong>Total hors-forfait: </strong>" + result+ " €");
+					$('.hf_amt').html("<strong>Total hors-forfait: </strong>" + parseFloat(result).toFixed(2) + " €");
 				}
 			}
 		
