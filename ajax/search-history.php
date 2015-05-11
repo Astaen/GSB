@@ -145,25 +145,8 @@ if(isset($_GET['search'])) {
 
 if(isset($_GET['filter'])) {
 	$filter = $_GET['filter'];
-
-	switch ($filter) {
-		case 'CL':
-			$callback = $gsb->getClosedSheets();
-			break;
-
-		case 'RB':
-			$callback = $gsb->getRefundedSheets();
-			break;
-
-		case 'VA':
-			$callback = $gsb->getValidatedSheets();
-			break;
-
-		default:
-			$callback = false;
-			break;
-	}
-
+	$callback = $gsb->getSheetsByStates($filter);
+	
 	// RETOUR
 	if(!$callback) {
 		echo json_encode(false);

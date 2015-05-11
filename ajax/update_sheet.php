@@ -10,8 +10,8 @@ if(isset($_POST['data'])) {
 		$details = $gsb->getSheetDetails($fiche['id']);
 		echo json_encode($details["forfait"]);		
 	} else {
-		$gsb->addFee($fiche['id'], $data['libelle'], $data['montant'], $data['date']);
-		$total = $gsb->getOutsideFeesTotal($fiche['id']);
+		$gsb->addOverageFee($fiche['id'], $data['libelle'], $data['montant'], $data['date']);
+		$total = $gsb->getOverageFeesTotal($fiche['id']);
 		echo json_encode($total[0]);
 	}
 }

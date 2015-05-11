@@ -27,9 +27,10 @@ class GSB {
 	/**
 	 * Change le nom du site ou le met à jour
 	 *
-	 * @title	(string)	Nouveau nom du site
-	 * @update	(bool)	Si true, le nom du site sera mis à jour avec un séparateur "Nom du site | Ajout", sinon le nom entier sera modifié
-	 * @return	(bool) false si le titre est vide
+	 * @param 	string 	$title 		Nouveau nom du site
+	 * @param 	bool 	$update 	Si true, le nom du site sera mis à jour avec un séparateur "Nom du site | Ajout", sinon le nom entier sera modifié
+	 * 
+	 * @return	bool 	False si le titre est vide
 	 */ 
 	public function setTitle($title, $update = true) {
 		if(empty($title)) {
@@ -42,24 +43,30 @@ class GSB {
 		}
 	}
 
+
 	/**
-	 * Initialise PDO
+	 * Crée une instance de connection à la base de données
 	 *
-	 * @return l'objet de connexion PDO
+	 * @return PDO Instance de connexion
 	 */ 
 	public function MySQLInit() {
-		if(!isset($bdd)) {
-			require($this->SITE_PATH."includes/bdd.php");
+		try {
+			$bdd = new PDO('mysql:host=localhost;dbname=gsb', 'gsb', 'btssio');
+		} catch (Exception $e) {
+			die('Erreur : ' . $e->getMessage());
 		}
+		$bdd->query('SET NAMES utf8');
 		return $bdd;
 	}
 
+
 	/**
-	 * Connecte l'utilisateur au site
+	 * Vérifie si l'utilisateur éxiste dans la base de donnée
 	 *
-	 * @username	(string)	Identifiant de l'utilisateur
-	 * @password	(string)	Mot de passe de l'utilisateur
-	 * @return	(bool) true si l'utilisateur existe dans la base de données, sinon false
+	 * @param 	string 	$username 	Identifiant de l'utilisateur
+	 * @param 	string 	$password 	Mot de passe de l'utilisateur
+	 *
+	 * @return	bool 	True si l'utilisateur existe dans la base de données, sinon false
 	 */ 
 	public function userLogin($username, $password) {
 		$bdd = $this->MySQLInit();
@@ -75,10 +82,11 @@ class GSB {
 		}
 	}
 
+
 	/**
-	 * Affiche le fil d'ariane
+	 * Affiche le fil d'ariane du site
 	 *
-	 * @return	(string) Fil d'ariane sous forme de string
+	 * @return 	string 	Fil d'ariane
 	 */ 
 	public function printAriane() {
 		if($_SESSION['user']['type'] == 'vis') {
@@ -100,6 +108,14 @@ class GSB {
 		}
 	}
 
+
+	/**
+	 * Ouvre une nouveau fiche de frais
+	 *
+	 * @param 	int 	$user_id 	ID de l'utilisateur
+	 *
+	 * @return 	array 	Retourne toute les fiches du visiteur
+	 */
 	public function openNewSheet($user_id) {
 		$bdd = $this->MySQLInit();
 		$bdd->query("UPDATE fiche SET id_etat='CL' WHERE id_etat='CR' AND id_utilisateur = '$user_id'");
@@ -107,34 +123,65 @@ class GSB {
 		return $this->getCurrentSheet($user_id);
 	}
 
+
+	/**
+	 * Ferme la fiche de frais du mois précédent
+	 */
 	public function closeLastMonthSheets() {
 		$bdd = $this->MySQLInit();
 		$lastMonth = date("m")-1;
 		$bdd->query("UPDATE fiche SET id_etat='CL' WHERE id_etat='CR' AND MONTH(date) = '$lastMonth'");
 	}
 
+
+	/**
+	 * Ajoute ou met à jour d'un frais forfaitaire
+	 *
+	 * @param 	int 	$id 			ID de la fiche de frais
+	 * @param 	string 	$type_frais 	Le type de frais
+	 * @param 	int 	$qty 			Quantité
+	 */
 	public function updateSheet($id, $type_frais, $qty) {
 		$bdd = $this->MySQLInit();
 		$date = date("Y-m-d H:i:s");
 		$bdd->query("INSERT INTO `ligne_frais_forfait`(`id_fiche`, `id_typefrais`, `quantite`, `derniere_modif`) VALUES ('$id','$type_frais','$qty','$date') ON DUPLICATE KEY UPDATE quantite = quantite+'$qty', derniere_modif = '$date'");
 	}
 
-	public function addFee($id, $lib, $amt, $date) {
+
+	/**
+	 * Ajout un frais hors forfait à la fiche de frais
+	 *
+	 * @param 	int 	$id 	ID de la fiche de frais
+	 * @param 	string 	$lib	Libellé du frais
+	 * @param 	float 	$amt 	Quantité
+	 * @param 	date 	$date 	Date d'ajout du frais
+	 */
+	public function addOverageFee($id, $lib, $amt, $date) {
 		$bdd = $this->MySQLInit();
 		$bdd->query("INSERT INTO `ligne_frais_horsforfait`(`id_fiche`, `montant`, `libelle`, `date`) VALUES ('$id','$amt','$lib','$date')");
 	}
 
-	public function getOutsideFeesTotal($id_fiche) {
+
+	/**
+	 * Réupère le total des frais hors forfaits
+	 *
+	 * @param 	int 	$id_fiche 	ID de la fiche de frais
+	 *
+	 * @return 	array 	Total des frais hors forfaits
+	 */
+	public function getOverageFeesTotal($id_fiche) {
 		$bdd = $this->MySQLInit();
 		$res = $bdd->query("SELECT SUM(montant) FROM ligne_frais_horsforfait WHERE id_fiche = '$id_fiche'");
 		return $res->fetch();
 	}
-	//renvoie LA fiche de l'utilisateur ouverte ce mois-ci dont l'ID est passé en paramètre, dans un tableau (sans les détails)
+
+
 	/**
-	 * Renvoie toutes les fiches de l'utilisateur dont l'ID est passé en paramètre, dans un tableau
+	 * Renvoie la fiches du mois courant d'un utilisateur (visiteur)
 	 *
-	 * @user_id	(int)	ID de l'utilsateur
-	 * @return un tableau contenant les fiches
+	 * @param 	int 	$user_id 	ID de l'utilsateur
+	 *
+	 * @return 	array 	Un tableau contenant les fiches
 	 */ 		
 	public function getCurrentSheet($user_id) {
 		$bdd = $this->MySQLInit();
@@ -143,13 +190,15 @@ class GSB {
 		return $res->fetch();
 	}
 
+
 	/**
-	 * Renvoie toutes les fiches de l'utilisateur dont l'ID est passé en paramètre, dans un tableau
+	 * Renvoie toutes (ou une quantité) les fiches d'un utilisateur
 	 *
-	 * @user_id	(int)	ID de l'utilsateur
-	 * @start 	(int)	Début de la recherche
-	 * @qty 	(int)	Quantité de résultat max
-	 * @return un tableau contenant les fiches
+	 * @param 	int 	$user_id 	ID de l'utilsateur
+	 * @param 	int 	$start 		Début de la recherche
+	 * @param 	int 	$qty 		Quantité de résultat max
+	 *
+	 * @return 	array|bool 	Un tableau contenant les fiches, False si il n'y a aucune fiche
 	 */ 	
 	public function getSheetsFromUser($user_id, $start = null, $qty = null) {
 		if($qty == null || $start == null) {
@@ -170,11 +219,12 @@ class GSB {
 		}		
 	}	
 
+
 	/**
-	 * Renvoie la fiche dont l'ID est passé en paramètre dans un tableau
+	 * Récupère les informations de la fiche dont l'ID est passé en paramètre
 	 *
-	 * @id	(int)	ID de la fiche
-	 * @return un tableau contenant la fiche ou false si elle n'existe pas
+	 * @param 	int 	$id 	ID de la fiche
+	 * @return 	array 	Un tableau contenant la fiche ou false si elle n'existe pas
 	 */ 	
 	public function getSheetById($id) {
 		$bdd = $this->MySQLInit();
@@ -183,11 +233,14 @@ class GSB {
 		return $res->fetch();
 	}	
 
-	public function getUnvalidatedSheets() {
 
-	}
-
-	//renvoie dans un tableau à 3 dimensions, les lignes de frais
+	/**
+	 * Récupère les frais forfaitaire et hors forfait d'une fiche
+	 *
+	 * @param 	int 	$sheet_id 	ID de la fiche de frais
+	 *
+	 * @return 	array 	Un tableau contenant les frais d'une fiche
+	 */
 	public function getSheetDetails($sheet_id) {
 		$bdd = $this->MySQLInit();
 
@@ -209,6 +262,12 @@ class GSB {
 		return $frais;
 	}
 
+
+	/**
+	 * Récupère le montant de remboursement de chaques type de frais
+	 *
+	 * @return 	array 	Un tableau contenant tout les montants de remboursement
+	 */
 	public function getFeeAmounts() {
 		$result = Array();
 		$bdd = $this->MySQLInit();
@@ -219,6 +278,12 @@ class GSB {
 		return $result;
 	}
 
+
+	/**
+	 * Récupère l'état des frais
+	 *
+	 * @return 	array 	Etat des frais
+	 */
 	public function getStates() {
 		$result = Array();
 		$bdd = $this->MySQLInit();
@@ -229,21 +294,38 @@ class GSB {
 		return $result;
 	}
 
+
+	/**
+	 * Récupère le mois d'une date
+	 *
+	 * @param 	date 	$date 	Une date
+	 *
+	 * @return 	string 	Le mois en lettre
+	 */
 	public function getMonth($date) {
 		return $this->month[(int)date("n", strtotime($date))-1];
 	}
 
+
+	/**
+	 * Récupère l'année d'une date
+	 *
+	 * @param 	date 	$date 	Une date
+	 *
+	 * @return 	string 	L'année en nombre
+	 */
 	public function getYear($date) {
 		return date("Y", strtotime($date));
 	}	
 
+
 	/**
-	 * Retourne toute les fiches recherché avant une date ou plusieurs date
+	 * Recherche toute les fiches avec une date passé en paramètre
 	 *
-	 * @keyword 	(string/int)	Date clé(s)
-	 * @user_id		(int)			ID de l'utilisateur
+	 * @param 	string|int 	$keyword 	Le mot clée d'une date (ex: mars, 03,...)
+	 * @param 	int 		$user_id 	ID de l'utilisateur
 	 * 
-	 * @return 		(array)			Contenant toute les fiches
+	 * @return 	array|bool 	Contenant toute les fiches trouvées en fonctionne de la recherche, False si rien n'a été trouvée
 	 */
 	public function searchSheetsByDate($keyword, $user_id = null) {
 		if(empty($keyword)) { return false; }
@@ -308,11 +390,13 @@ class GSB {
 		}
 	}
 
+
 	/**
-	 * Renvoie toute les fiches dont le mot clé est dans le champ nom ou prénom
+	 * Recherche toute les fiches dont le mot clé est dans le champ nom ou prénom
 	 *
-	 * @keyword 	(string)	Mot clé pour la recherche
-	 * @return un tableau contenant les fiches ou false si aucune n'est ouverte
+	 * @param 	string 	$keyword 	Mot clé pour la recherche
+	 *
+	 * @return 	array|bool 	Un tableau contenant les fiches, False si aucune n'est trouvée
 	 */
 	public function searchSheetsByKeyword($keyword, $user_id = null) {
 		if(empty($keyword)) { return false; }
@@ -362,8 +446,13 @@ class GSB {
 		}
 	}
 
+
 	/**
-	 * Retourne un mot avec la premier lettre en Majuscule (pour la recherche dans la DB)
+	 * Met la premier lettre en Majuscule d'un/plusieurs mots clés  (pour la recherche dans la DB)
+	 *
+	 * @param 	string|array 	$word 	Mots clés
+	 *
+	 * @return 	array|string 	Mots clés avec la premier lettre en majuscule
 	 */
 	public function FirstToUpper($word) {
 		if(is_array($word)) {
@@ -375,10 +464,11 @@ class GSB {
 		else { return ucfirst(strtolower($word)); }
 	}
 
+
 	/**
 	 * Renvoie toute les fiches qui on l'état "En cours" dans un tableau
 	 *
-	 * @return un tableau contenant les fiches ou false si aucune n'est ouverte
+	 * @return array|bool Un tableau contenant les fiches ou false si aucune n'est ouverte
 	 */ 
 	public function getOpenedSheets() {
 		$open = array();
@@ -393,11 +483,13 @@ class GSB {
 			return false;
 	}
 
+
 	/**
 	 * Renvoie le nom et le prénom d'un utilisateur
 	 *
-	 * @user_id		(int)	ID de l'utilisateur
-	 * @return Un tableau
+	 * @param 	int 	$user_id 	ID de l'utilisateur
+	 *
+	 * @return 	array 	Un tableau
 	 */
 	public function getUserInfo($user_id) {
 		$bdd = $this->MySQLInit();
@@ -407,10 +499,11 @@ class GSB {
 		return $data;
 	}
 
+
 	/**
-	 * Renvoie toute les fiches de frais qui ne son pas en état "En cours"
+	 * Renvoie toute les fiches de frais qui ne sont pas en état "En cours"
 	 *
-	 * @return Si aucun résultat renvoie FALSE, sinon une tableau à 3 dimenssions
+	 * @return 	array|bool 	Si aucun résultat renvoie FALSE, sinon une tableau à 3 dimenssions
 	 */
 	public function getEverySheetsNotOpen() {
 		$sheets = array();
@@ -425,6 +518,15 @@ class GSB {
 			return false;
 	}
 
+
+	/**
+	 * Change l'état d'une fiche de frais
+	 *
+	 * @param 	string  $etat 	Etat de la fiche
+	 * @param 	int 	$id 	ID de la fiche de frais
+	 *
+	 * @return 	bool 	True si cela a fonctionné, sinon false
+	 */
 	public function changeStates($etat, $id) {
 		$bdd = $this->MySQLInit();
 		$req = $bdd->prepare("UPDATE fiche SET id_etat=? WHERE id = ?");
@@ -436,41 +538,23 @@ class GSB {
 		}
 	}
 
-	public function getClosedSheets() {
-		$closed = array();
-		$bdd = $this->MySQLInit();
-		$res = $bdd->query("SELECT * FROM fiche WHERE id_etat = 'CL' ORDER BY date DESC");
-		while ($sheet = $res->fetch(PDO::FETCH_ASSOC)) {
-			array_push($closed, $sheet);
-		}
-		if(sizeof($closed))
-			return $closed;
-		else
-			return false;
-	}
 
-	public function getRefundedSheets(){
-		$refunded = array();
+	/**
+	 * Récupère les fiches de frais par leurs éta
+	 *
+	 * @param 	string 	$state 	Etat de la fiche
+	 *
+	 * @return 	array|bool 	Les fiches de frais trouvées dans un tableau, sinon false
+	 */
+	public function getSheetsByStates($state) {
+		$sheets = array();
 		$bdd = $this->MySQLInit();
-		$res = $bdd->query("SELECT * FROM fiche WHERE id_etat = 'RB' ORDER BY date DESC");
+		$res = $bdd->query("SELECT * FROM fiche WHERE id_etat = '$state' ORDER BY date DESC");
 		while ($sheet = $res->fetch(PDO::FETCH_ASSOC)) {
-			array_push($refunded, $sheet);
+			array_push($sheets, $sheet);
 		}
-		if(sizeof($refunded))
-			return $refunded;
-		else
-			return false;
-	}
-
-	public function getValidatedSheets(){
-		$validated = array();
-		$bdd = $this->MySQLInit();
-		$res = $bdd->query("SELECT * FROM fiche WHERE id_etat = 'VA' ORDER BY date DESC");
-		while ($sheet = $res->fetch(PDO::FETCH_ASSOC)) {
-			array_push($validated, $sheet);
-		}
-		if(sizeof($validated))
-			return $validated;
+		if(sizeof($sheets))
+			return $sheets;
 		else
 			return false;
 	}
