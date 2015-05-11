@@ -152,7 +152,7 @@ class GSB {
 	 * @return un tableau contenant les fiches
 	 */ 	
 	public function getSheetsFromUser($user_id, $start = null, $qty = null) {
-		if($qty == null || $start = null) {
+		if($qty == null || $start == null) {
 			$sql = "SELECT * FROM fiche WHERE id_utilisateur=$user_id ORDER BY date DESC";
 		} else {
 			$sql = "SELECT * FROM fiche WHERE id_utilisateur=$user_id ORDER BY date DESC LIMIT $start,$qty";
