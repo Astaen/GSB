@@ -29,6 +29,7 @@ $total_hors_forfait = 0;
 	<div class="summary">
 		<div class="entry-header">
 			<span>Frais du mois de <?= $gsb->getMonth($fiche['date'])." ".$gsb->getYear($fiche['date']); ?></span>
+
 			<?php if($_SESSION['user']['type'] == 'com'): ?>
 				<form id="form-change-etat" method="POST" action="">
 					<span class="alert-success">Modification réussie</span>
@@ -42,6 +43,7 @@ $total_hors_forfait = 0;
 					<input type="submit" name="change-state" value="Valider" />
 				</form>
 			<?php endif; ?>
+
 		</div>
 		<?php if($_SESSION['user']['type'] == 'com'): ?>
 		<div class="entry-header">
@@ -71,7 +73,7 @@ $total_hors_forfait = 0;
 					?>
 				</td>
 				<td><?= $frais['quantite']; ?></td>
-				<td><?= $frais['derniere_modif']; ?></td>
+				<td><?= date("d/m/Y H:i", strtotime($frais['derniere_modif'])); ?></td>
 				<td><?= $frais['quantite'] * $montantsType[$frais['id_typefrais']]; ?></td>
 			</tr>
 			<?php $total_forfait += $frais['quantite'] * $montantsType[$frais['id_typefrais']]; ?>

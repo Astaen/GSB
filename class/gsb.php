@@ -113,6 +113,22 @@ class GSB {
 		$bdd->query("UPDATE fiche SET id_etat='CL' WHERE id_etat='CR' AND MONTH(date) = '$lastMonth'");
 	}
 
+	public function updateSheet($id, $type_frais, $qty) {
+		$bdd = $this->MySQLInit();
+		$date = date("Y-m-d H:i:s");
+		$bdd->query("INSERT INTO `ligne_frais_forfait`(`id_fiche`, `id_typefrais`, `quantite`, `derniere_modif`) VALUES ('$id','$type_frais','$qty','$date') ON DUPLICATE KEY UPDATE quantite = quantite+'$qty', derniere_modif = '$date'");
+	}
+
+	public function addFee($id, $lib, $amt, $date) {
+		$bdd = $this->MySQLInit();
+		$bdd->query("INSERT INTO `ligne_frais_horsforfait`(`id_fiche`, `montant`, `libelle`, `date`) VALUES ('$id','$amt','$lib','$date')");
+	}
+
+	public function getOutsideFeesTotal($id_fiche) {
+		$bdd = $this->MySQLInit();
+		$res = $bdd->query("SELECT SUM(montant) FROM ligne_frais_horsforfait WHERE id_fiche = '$id_fiche'");
+		return $res->fetch();
+	}
 	//renvoie LA fiche de l'utilisateur ouverte ce mois-ci dont l'ID est passé en paramètre, dans un tableau (sans les détails)
 	/**
 	 * Renvoie toutes les fiches de l'utilisateur dont l'ID est passé en paramètre, dans un tableau

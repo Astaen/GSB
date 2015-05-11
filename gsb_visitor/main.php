@@ -77,8 +77,8 @@ include("navigation.php");
 			</div>
 
 			<div class="total">
-				<span><strong>Total forfaitaire : </strong><?= $total_forfait; ?> €</span>
-				<span><strong>Total hors-forfait : </strong><?= $total_hors_forfait; ?> €</span>
+				<span><strong>Total forfaitaire: </strong><?= $total_forfait; ?> €</span>
+				<span class="hf_amt"><strong>Total hors-forfait: </strong><?= $total_hors_forfait; ?> €</span>
 			</div>
 		</div>
 		<a class="more" href="/details.php?fiche=<?=$ficheCourante['id'];?>">Voir plus ...</a>
