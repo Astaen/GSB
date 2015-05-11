@@ -5,7 +5,7 @@ $ficheCourante = $gsb->getCurrentSheet($user_id); // ... la fiche courante de l'
 if(!$ficheCourante) { //Si aucune fiche n'est ouverte pour le mois en cours, on en crée une nouvelle
 	$ficheCourante = $gsb->openNewSheet($user_id);
 }
-$fiches = $gsb->getSheetsFromUser($user_id); // ... toutes les fiches de l'utilisateur actuel en tableau
+$fiches = $gsb->getSheetsFromUser($user_id, 1, 5); // ... toutes les fiches de l'utilisateur actuel en tableau
 $detailFiche = $gsb->getSheetDetails($ficheCourante['id']); // ... les détails de cette même fiche (les lignes)
 $montantsType = $gsb->getFeeAmounts(); // ... les coûts de chaque type
 $libellesEtat = $gsb->getStates(); // ... les libéllés des types
@@ -78,7 +78,7 @@ include("navigation.php");
 
 			<div class="total">
 				<span><strong>Total forfaitaire: </strong><?= $total_forfait; ?> €</span>
-				<span class="hf_amt"><strong>Total hors-forfait: </strong><?= $total_hors_forfait; ?> €</span>
+				<span class="hf_amt"><strong>Total hors-forfait: </strong><?= round($total_hors_forfait,2); ?> €</span>
 			</div>
 		</div>
 		<a class="more" href="/details.php?fiche=<?=$ficheCourante['id'];?>">Voir plus ...</a>
@@ -143,7 +143,7 @@ include("navigation.php");
 				<p class="date_valeur">Date valeur : </p>
 				<input type="date" class="date_valeur" name="date_valeur">
 				<p class="qty">Quantité :</p>
-				<input type="number" class="qty" name="qty" value="0" min="0">
+				<input type="number" class="qty" name="qty" value="0" min="0" step="0.01">
 				<button type="submit">Envoyer</button>
 			</form>
 		</div>
