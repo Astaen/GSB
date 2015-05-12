@@ -435,6 +435,22 @@ div#add-popup.send {
   text-shadow: 1px 1px 5px #648dc1;
 }
 
+#add-popup form p.error {
+    animation: appear 0.5s ease forwards;
+    -webkit-animation: appear 0.5s ease forwards;
+    background: rgb(255, 215, 215);
+    color: red;
+    padding: 5px;
+    text-align: center;
+    text-shadow: none;
+    border: none;
+    padding: 0;
+    border-radius: 4px;
+    margin: 5px 0;
+    font-weight: normal;
+    opacity: 0;
+}
+
 #add-popup form input,#add-popup form select {
     margin: 20px 0;
 }

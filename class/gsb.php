@@ -56,7 +56,7 @@ class GSB {
 	 */ 
 	public function MySQLInit() {
 		try {
-			$bdd = new PDO('mysql:host=localhost;dbname=gsb', 'root', '1234');
+			$bdd = new PDO('mysql:host=localhost;dbname=gsb', 'gsb', 'btssio');
 		} catch (Exception $e) {
 			die('Erreur : ' . $e->getMessage());
 		}
