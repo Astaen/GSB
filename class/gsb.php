@@ -1,4 +1,9 @@
 <?php
+/**
+ * @author 	Hamadi Sofiane <sofiane.hamadi.pro@gmail.com>
+ * @author 	Estermann Keyvan <contact@astaen.fr>
+ * @version 1.0
+ */
 class GSB {
 
 	/************************* 
@@ -51,7 +56,7 @@ class GSB {
 	 */ 
 	public function MySQLInit() {
 		try {
-			$bdd = new PDO('mysql:host=localhost;dbname=gsb', 'gsb', 'btssio');
+			$bdd = new PDO('mysql:host=localhost;dbname=gsb', 'root', '1234');
 		} catch (Exception $e) {
 			die('Erreur : ' . $e->getMessage());
 		}
