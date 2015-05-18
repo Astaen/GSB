@@ -552,15 +552,16 @@ p.no-frais {
     border-left:  1px solid #648dc1;
 }
 
-/*footer {
+footer {
     display: block;
-    text-align: right;
-    padding: 10px 30px;
-    font-size: 12px;
-    color: rgb(176, 176, 176);
-    background: rgb(231, 231, 231);
     position: absolute;
-    bottom: 0;
-    left: 0;
+    bottom: -70px;
+    color: rgba(0,0,0,0.2);
+    text-align: center;
     right: 0;
-}*/
+    left: 0;
+}
+
+footer a {
+    color: inherit;
+}

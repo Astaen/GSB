@@ -36,8 +36,10 @@ $total_hors_forfait = 0;
 					<span class="alert-error">Modification impossible</span>
 					<span class="etat-vis">État :</span>
 					<select id="action-etat">
-						<option value="RB" <?= ($fiche['id_etat'] == "RB")?"selected":""; ?>>Rembourser</option>
-						<option value="VA" <?= ($fiche['id_etat'] == "VA")?"selected":""; ?>>Valider</option>
+						<option value="CL" <?= ($fiche['id_etat'] == "CL")?"selected":""; ?>>Cloturé</option>
+						<option value="CR" <?= ($fiche['id_etat'] == "CR")?"selected":""; ?>>En cours</option>
+						<option value="RB" <?= ($fiche['id_etat'] == "RB")?"selected":""; ?>>Remboursé</option>
+						<option value="VA" <?= ($fiche['id_etat'] == "VA")?"selected":""; ?>>Validé</option>
 					</select>
 					<input type="submit" name="change-state" value="Valider" />
 				</form>

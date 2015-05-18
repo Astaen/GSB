@@ -19,4 +19,10 @@
 			<li><a class="nav-link" href="fiches.php">Gestion des frais</a></li>
 			<li><a class="nav-link" href="index.php?logout">Déconnexion</a></li>
 		</ul>
+
+		<footer>
+			<p><a href="/doc">Documentation</a></p>
+			<p>H. Sofiane / E. Keyvan</p>
+			<p>BTS SIO - Promo 2014-2015</p>
+		</footer>	
 	</nav>
