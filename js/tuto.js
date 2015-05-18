@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	// Doc cookie : https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
 	/* OBJET COOKIE */
 	var docCookies = {
 	  getItem: function (sKey) {
@@ -51,11 +52,11 @@ $(document).ready(function(){
 	var info = ""; var classe = "";
 	var $body = $('body');
 
-	// (string) true | null : Affiche le tuto
+	// (string) null : Affiche le tuto
 	// (string) false : N'affiche plus le tuto jusqu'à l'expiration du cookie
-	if(cookie_tuto == null || cookie_tuto == "true") {
-		docCookies.setItem('tuto', "true", cookie_expire);
+	if(cookie_tuto == null) {
 		$body.css({'overflow':'hidden'});
+		
 		// L'écran devient noir & un container & la cookie-bar
 		$body.append('<div class="tuto"><div class="tuto-container"></div><div class="tuto-cookiebar"><p>Cliquez si vous ne voulez plus afficher le tutoriel</p><button id="btn-cookie" class="btn-tuto btn-cookie">Ne plus afficher le tutoriel</button></div></div>');
 
@@ -81,7 +82,7 @@ $(document).ready(function(){
 				info += '- Dans le "<i>Tableau de bord</i>" vous disposez d\'un bref résumé sur vos frais.<br/>- Et vous pouvez consulter vos frais présents et antérieur dans "<i>Gestion des frais</i>".';
 			}
 			else {
-				info += '- Dans le "<i>Tableau de bord</i>" vous pouvez voir les fiches de frais des visiteurs du mois courant.<br/>- Et vous pouvez consulter toutes les fiches de frais présentes et antérieur dans "<i>Gestion des frais</i>".';
+				info += '- Dans le "<i>Tableau de bord</i>" vous pouvez voir les fiches de frais des visiteurs du mois courant.<br/>- Et vous pouvez consulter toutes les fiches de frais des visiteurs présentes et antérieur dans "<i>Gestion des frais</i>".';
 			}
 			$container.append('<div class="tuto-flash-menu"></div><div class="tuto-wrap-menu"><div class="tuto-info">'+info+'</div><button id="btn-menu" class="btn-tuto">Suivant</button></div>');
 		});
@@ -143,23 +144,33 @@ $(document).ready(function(){
 			$tuto.on('click', '#btn-func5', function(){
 				$('.tuto-flash-func5').remove();
 				$('.tuto-wrap-func5').fadeOut();
-				$container.append('<div class="tuto-flash-func6"></div><div class="tuto-wrap-func6 arrow-right"><div class="tuto-info">Et enfin vous devrez préciser le montant de votre dépense.</div><button id="btn-func6" class="btn-tuto">Fin</button></div>');
+				$container.append('<div class="tuto-flash-func6"></div><div class="tuto-wrap-func6 arrow-right"><div class="tuto-info">Et enfin vous devrez préciser le montant de votre dépense.</div><button id="btn-func6" class="btn-tuto">Suivant</button></div>');
+			});
+
+			$tuto.on('click', '#btn-func6', function(){
+				docCookies.setItem('tuto', false, cookie_expire);
+				document.querySelector(".nav-menu li:nth-child(2) a").click(); // Click sur le bouton 'Gestion des frais'
+			});
+		}
+		else { // Si c'est un compta
+			// Passer à la présentation de la parti Gestion des frais
+			$tuto.on('click', '#btn-monthsummary', function(){
+				docCookies.setItem('tuto', false, cookie_expire);
+				document.querySelector(".nav-menu li:nth-child(2) a").click(); // Click sur le bouton 'Gestion des frais'
 			});
 		}
 
 		// Arrête le tuto et ne le réaffiche plus
-		var vis = (typeuser == "Interface Visiteur") ? ", #btn-func6" : "";
-		$tuto.on('click', '#btn-cookie'+vis+'', function(e){
+		$tuto.on('click', '#btn-cookie', function(e){
 			e.preventDefault();
-			if($('.tuto-flash-monthsummary')) {$('.tuto-flash-monthsummary').remove(); $('.tuto-wrap-monthsummary').fadeOut();}
 			$tuto.fadeOut();
 			var scroll = $body.offset().top; // Position du body (soit 0px en haut)
 			$body.animate({scrollTop: scroll}, 500); // Scroll vers le haut
 			$body.css({'overflow-y':'scroll'});
-			if(vis != "") { document.getElementById('cancel').click() }; // Click automatiquement sur le bouton 'Annulé' }
-			if(cookie_tuto) docCookies.removeItem('tuto');
+			if(vis != "") { document.getElementById('cancel').click(); }; // Click automatiquement sur le bouton 'Annulé'
 			docCookies.setItem('tuto', false, cookie_expire);
-			$tuto.fadeOut();
+			docCookies.setItem('tutoFiches', false, cookie_expire);
+			docCookies.setItem('tutoDetails', false, cookie_expire);
 			removeTuto = setInterval(function() {
 	    		$tuto.remove();
 	    		clearInterval(removeTuto);

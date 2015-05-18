@@ -44,7 +44,7 @@
 .btn-tuto:hover { background: #51879D; }
 /* Wrap infobulle */
 .tuto-wrap-ariane, .tuto-wrap-menu, .tuto-wrap-add, .tuto-wrap-monthsummary, 
-.tuto-wrap-func1, .tuto-wrap-func2, .tuto-wrap-func3, .tuto-wrap-func4, .tuto-wrap-func5, .tuto-wrap-func6 {
+.tuto-wrap-func1, .tuto-wrap-func2, .tuto-wrap-func3, .tuto-wrap-func4, .tuto-wrap-func5, .tuto-wrap-func6, .tuto-wrap-history-search, .tuto-wrap-history-etat, .tuto-wrap-details-etat {
 	position: absolute;
 	height: auto;
 	border: 1px solid #000;
@@ -183,7 +183,7 @@
 /* FOCUS RESUMÉ FRAIS */
 .tuto-flash-monthsummary {
 	position: absolute;
-	width: 830px;
+	width: 663px;
 	height: 268px;
 	top: 88px;
 	right: 13px;
@@ -198,7 +198,7 @@
 	/*Catégorie*/
 .tuto-flash-func1 {
 	position: absolute;
-	width: 830px;
+	width: 663px;
 	height: 85px;
 	top: 162px;
 	right: 13px;
@@ -206,12 +206,12 @@
 	border-radius: 2px;
 	-webkit-animation: flash 2s linear infinite alternate;
 }
-.tuto-wrap-func1 { top: 263px; right: 13px; width: 792px; }
+.tuto-wrap-func1 { top: 263px; right: 13px; width: 626px; }
 
 	/*Type de frais*/
 .tuto-flash-func2 {
 	position: absolute;
-	width: 830px;
+	width: 663px;
 	height: 97px;
 	top: 100px;
 	right: 13px;
@@ -219,12 +219,12 @@
 	border-radius: 2px;
 	-webkit-animation: flash 2s linear infinite alternate;
 }
-.tuto-wrap-func2 { top: 213px; right: 13px; width: 792px; }
+.tuto-wrap-func2 { top: 213px; right: 13px; width: 626px; }
 
 	/*Quantité*/
 .tuto-flash-func3 {
 	position: absolute;
-	width: 830px;
+	width: 663px;
 	height: 108px;
 	top: 210px;
 	right: 13px;
@@ -232,12 +232,12 @@
 	border-radius: 2px;
 	-webkit-animation: flash 2s linear infinite alternate;
 }
-.tuto-wrap-func3 { top: 334px; right: 13px; width: 792px; }
+.tuto-wrap-func3 { top: 334px; right: 13px; width: 626px; }
 
 	/*Libellé*/
 .tuto-flash-func4 {
 	position: absolute;
-	width: 830px;
+	width: 663px;
 	height: 108px;
 	top: 102px;
 	right: 13px;
@@ -245,12 +245,12 @@
 	border-radius: 2px;
 	-webkit-animation: flash 2s linear infinite alternate;
 }
-.tuto-wrap-func4 { top: 227px; right: 13px; width: 792px; }
+.tuto-wrap-func4 { top: 227px; right: 13px; width: 626px; }
 
 	/*Date valeur*/
 .tuto-flash-func5 {
 	position: absolute;
-	width: 830px;
+	width: 663px;
 	height: 108px;
 	top: 220px;
 	right: 13px;
@@ -258,12 +258,12 @@
 	border-radius: 2px;
 	-webkit-animation: flash 2s linear infinite alternate;
 }
-.tuto-wrap-func5 { top: 344px; right: 13px; width: 792px; }
+.tuto-wrap-func5 { top: 344px; right: 13px; width: 626px; }
 
 	/*Montant*/
 .tuto-flash-func6 {
 	position: absolute;
-	width: 830px;
+	width: 663px;
 	height: 108px;
 	top: 339px;
 	right: 13px;
@@ -271,4 +271,46 @@
 	border-radius: 2px;
 	-webkit-animation: flash 2s linear infinite alternate;
 }
-.tuto-wrap-func6 { top: 465px; right: 13px; width: 792px; }
+.tuto-wrap-func6 { top: 465px; right: 13px; width: 626px; }
+
+/* TUTO COMPTA SUITE */
+/* fiches.php - historique search */
+.tuto-flash-history-search {
+	position: absolute;
+	width: 246px;
+	height: 41px;
+	top: 100px;
+	right: 35px;
+	border: 2px solid #6ad6ff;
+	border-radius: 2px;
+	-webkit-animation: flash 2s linear infinite alternate;
+}
+.tuto-wrap-history-search { top: 158px; right: 34px; width: 500px; }
+
+/* fiches.php - historique etat */
+.tuto-flash-history-etat {
+	position: absolute;
+	width: 257px;
+	height: 41px;
+	top: 166px;
+	right: 387px;
+	border: 2px solid #6ad6ff;
+	border-radius: 2px;
+	-webkit-animation: flash 2s linear infinite alternate;
+}
+.tuto-wrap-history-etat { top: 224px; right: 107px; width: 500px; }
+.tuto-wrap-history-etat:before { left: 20px; }
+.tuto-wrap-history-etat:after { left: 18px; }
+
+/* details.php - details etat */
+.tuto-flash-details-etat {
+	position: absolute;
+	width: 300px;
+	height: 44px;
+	top: 99px;
+	right: 35px;
+	border: 2px solid #6ad6ff;
+	border-radius: 2px;
+	-webkit-animation: flash 2s linear infinite alternate;
+}
+.tuto-wrap-details-etat { top: 159px; right: 34px; width: 500px; }

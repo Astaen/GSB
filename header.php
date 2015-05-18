@@ -8,6 +8,8 @@
 	<script type="text/javascript" src="js/search.js"></script>
 	<script type="text/javascript" src="js/change-states.js"></script>
 	<script type="text/javascript" src="js/tuto.js"></script>
+	<script type="text/javascript" src="js/tuto-fiches.js"></script>
+	<script type="text/javascript" src="js/tuto-details.js"></script>
 	<link rel="stylesheet" type="text/css" href="/css/tuto.css">
 	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300italic,500' rel='stylesheet' type='text/css'>
 	<?php if($_SESSION['user']['type'] == 'vis') { ?>
