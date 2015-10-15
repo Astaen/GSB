@@ -4,6 +4,9 @@
  * @author 	Estermann Keyvan <contact@astaen.fr>
  * @version 1.0
  */
+
+date_default_timezone_set("UTC");
+
 class GSB {
 
 	/************************* 
@@ -55,12 +58,7 @@ class GSB {
 	 * @return PDO Instance de connexion
 	 */ 
 	public function MySQLInit() {
-		try {
-			$bdd = new PDO('mysql:host=localhost;dbname=gsb', 'gsb', 'btssio');
-		} catch (Exception $e) {
-			die('Erreur : ' . $e->getMessage());
-		}
-		$bdd->query('SET NAMES utf8');
+		include("bdd.php");
 		return $bdd;
 	}
 
